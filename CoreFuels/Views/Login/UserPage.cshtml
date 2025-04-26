@@ -1,0 +1,343 @@
+﻿@model CoreFuels.Model.AuthorizationModel
+
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Логирование</title>
+    <style>
+        /* Базовые стили без анимаций */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', -apple-system, sans-serif;
+        }
+
+        body {
+            background: #121420;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            overflow: hidden;
+        }
+
+        .container {
+            background-color: #2B2D42;
+            padding: 40px;
+            border-radius: 20px;
+            width: 400px;
+            color: #EDF2F4;
+            text-align: center;
+            opacity: 0;
+            transform: translateY(20px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .title {
+            font-size: 2rem;
+            color: #FF6B6B;
+            margin-bottom: 30px;
+            position: relative;
+            opacity: 0;
+            transform: translateY(-10px);
+        }
+
+        .textbox {
+            width: 100%;
+            padding: 14px 20px;
+            margin: 15px 0;
+            border: 1px solid #4A4E69;
+            border-radius: 8px;
+            font-size: 1rem;
+            background: #1A1C2C;
+            color: #EDF2F4;
+            opacity: 0;
+            transform: translateY(10px);
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 14px;
+            background: #FF6B6B;
+            color: white;
+            font-size: 1.1rem;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            margin-top: 20px;
+            opacity: 0;
+            transform: translateY(10px);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .alert {
+            padding: 12px;
+            margin-bottom: 20px;
+            border-radius: 8px;
+            font-weight: 500;
+            opacity: 0;
+            transform: scale(0.95);
+        }
+
+        .alert-success {
+            background: #4CAF50;
+            color: white;
+        }
+
+        .alert-danger {
+            background: #f44336;
+            color: white;
+        }
+
+        .auth-status {
+            margin: 20px 0;
+            padding: 15px;
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.1);
+            opacity: 0;
+            transform: translateY(10px);
+        }
+    </style>
+</head>
+<body>
+    <div class="container" id="container">
+        @if (TempData["SuccessMessage"] != null)
+        {
+            <div class="alert alert-success" id="successAlert">
+                @TempData["SuccessMessage"]
+            </div>
+        }
+
+        @if (TempData["ErrorMessage"] != null)
+        {
+            <div class="alert alert-danger" id="errorAlert">
+                @TempData["ErrorMessage"]
+            </div>
+        }
+
+
+        <div class="title" id="title">Логирование</div>
+        <form method="post" id="loginForm">
+            <input type="text" class="textbox" name="login" placeholder="Введите логин" required id="loginInput">
+            <input type="password" class="textbox" name="pass" placeholder="Введите пароль" required id="passInput">
+            <button type="submit" class="submit-btn" id="submitBtn">Войти</button>
+        </form>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // Анимация появления контейнера
+            const container = document.getElementById('container');
+            animateElement(container, {
+                opacity: 1,
+                y: 0
+            }, 600, 100, 'easeOutQuad');
+
+            // Анимация заголовка
+            const title = document.getElementById('title');
+            animateElement(title, {
+                opacity: 1,
+                y: 0
+            }, 500, 400, 'easeOutQuad');
+
+            // Анимация полей ввода
+            const inputs = document.querySelectorAll('.textbox');
+            inputs.forEach((input, index) => {
+                animateElement(input, {
+                    opacity: 1,
+                    y: 0
+                }, 400, 600 + (index * 150), 'easeOutQuad', () => {
+                    // Эффекты при фокусе
+                    input.addEventListener('focus', () => {
+                        animateElement(input, {
+                            borderColor: '#FF6B6B',
+                            boxShadow: '0 0 0 3px rgba(255, 107, 107, 0.3)'
+                        }, 200);
+                    });
+
+                    input.addEventListener('blur', () => {
+                        animateElement(input, {
+                            borderColor: '#4A4E69',
+                            boxShadow: 'none'
+                        }, 200);
+                    });
+                });
+            });
+
+            // Анимация кнопки
+            const submitBtn = document.getElementById('submitBtn');
+            animateElement(submitBtn, {
+                opacity: 1,
+                y: 0
+            }, 500, 900, 'easeOutQuad', () => {
+                // Эффект при наведении
+                submitBtn.addEventListener('mouseenter', () => {
+                    animateElement(submitBtn, {
+                        y: -2,
+                        background: '#FF4B4B'
+                    }, 200);
+                });
+
+                submitBtn.addEventListener('mouseleave', () => {
+                    animateElement(submitBtn, {
+                        y: 0,
+                        background: '#FF6B6B'
+                    }, 200);
+                });
+
+                // Эффект блеска при наведении
+                submitBtn.addEventListener('mouseenter', createShineEffect);
+            });
+
+            // Анимация статуса авторизации
+            const authStatus = document.getElementById('authStatus');
+            if (authStatus) {
+                animateElement(authStatus, {
+                    opacity: 1,
+                    y: 0
+                }, 500, 1000, 'easeOutQuad');
+
+                const loginLink = document.getElementById('loginLink');
+                if (loginLink) {
+                    loginLink.addEventListener('mouseenter', () => {
+                        animateElement(loginLink, {
+                            color: '#FF4B4B'
+                        }, 200);
+                    });
+
+                    loginLink.addEventListener('mouseleave', () => {
+                        animateElement(loginLink, {
+                            color: '#FF6B6B'
+                        }, 200);
+                    });
+                }
+
+                const logoutBtn = document.getElementById('logoutBtn');
+                if (logoutBtn) {
+                    logoutBtn.addEventListener('mouseenter', () => {
+                        animateElement(logoutBtn, {
+                            background: '#FF4B4B'
+                        }, 200);
+                    });
+
+                    logoutBtn.addEventListener('mouseleave', () => {
+                        animateElement(logoutBtn, {
+                            background: '#FF6B6B'
+                        }, 200);
+                    });
+
+                    logoutBtn.addEventListener('mouseenter', createShineEffect);
+                }
+            }
+
+            // Анимация алертов
+            const alerts = document.querySelectorAll('.alert');
+            alerts.forEach(alert => {
+                animateElement(alert, {
+                    opacity: 1,
+                    scale: 1
+                }, 400, 1100, 'easeOutBack');
+            });
+
+            // Функция для создания эффекта блеска
+            function createShineEffect() {
+                const shine = document.createElement('div');
+                shine.style.position = 'absolute';
+                shine.style.top = '0';
+                shine.style.left = '-100%';
+                shine.style.width = '100%';
+                shine.style.height = '100%';
+                shine.style.background = 'linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent)';
+                shine.style.transform = 'skewX(-25deg)';
+
+                this.appendChild(shine);
+
+                animateElement(shine, {
+                    left: '100%'
+                }, 600, 0, 'linear', () => {
+                    shine.remove();
+                });
+            }
+
+            // Универсальная функция анимации
+            function animateElement(element, properties, duration, delay = 0, easing = 'linear', callback = null) {
+                setTimeout(() => {
+                    const startTime = performance.now();
+                    const initialValues = {};
+
+                    // Получаем начальные значения
+                    for (const prop in properties) {
+                        if (prop === 'scale') {
+                            initialValues[prop] = parseFloat(element.style.transform?.replace(/[^0-9.]/g, '') || 1);
+                        } else if (prop === 'y' || prop === 'x') {
+                            initialValues[prop] = parseFloat(element.style.transform?.match(/translate[XY]\(([^)]+)/)?.[1] || 0);
+                        } else {
+                            initialValues[prop] = parseFloat(window.getComputedStyle(element)[prop]) || 0;
+                        }
+                    }
+
+                    function update(time) {
+                        const elapsed = time - startTime;
+                        const progress = Math.min(elapsed / duration, 1);
+                        const easedProgress = applyEasing(progress, easing);
+
+                        for (const prop in properties) {
+                            const startValue = initialValues[prop];
+                            const endValue = typeof properties[prop] === 'string' ?
+                                properties[prop] :
+                                parseFloat(properties[prop]);
+                            const currentValue = startValue + (endValue - startValue) * easedProgress;
+
+                            if (prop === 'scale') {
+                                element.style.transform = `scale(${currentValue})`;
+                            } else if (prop === 'y') {
+                                const x = initialValues['x'] || 0;
+                                element.style.transform = `translate(${x}px, ${currentValue}px)`;
+                            } else if (prop === 'x') {
+                                const y = initialValues['y'] || 0;
+                                element.style.transform = `translate(${currentValue}px, ${y}px)`;
+                            } else if (prop === 'boxShadow' || prop === 'background') {
+                                element.style[prop] = properties[prop];
+                            } else {
+                                element.style[prop] = typeof properties[prop] === 'string' ?
+                                    properties[prop] :
+                                    `${currentValue}${prop === 'opacity' ? '' : 'px'}`;
+                            }
+                        }
+
+                        if (progress < 1) {
+                            requestAnimationFrame(update);
+                        } else if (callback) {
+                            callback();
+                        }
+                    }
+
+                    requestAnimationFrame(update);
+                }, delay);
+            }
+
+            // Функции для плавности анимации
+            function applyEasing(progress, easing) {
+                switch (easing) {
+                    case 'easeInQuad':
+                        return progress * progress;
+                    case 'easeOutQuad':
+                        return progress * (2 - progress);
+                    case 'easeInOutQuad':
+                        return progress < 0.5 ? 2 * progress * progress : -1 + (4 - 2 * progress) * progress;
+                    case 'easeOutBack':
+                        const c1 = 1.70158;
+                        const c3 = c1 + 1;
+                        return 1 + c3 * Math.pow(progress - 1, 3) + c1 * Math.pow(progress - 1, 2);
+                    default:
+                        return progress;
+                }
+            }
+        });
+    </script>
+</body>
+</html>

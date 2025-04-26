@@ -1,0 +1,300 @@
+﻿<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Интерактивная страница с видео</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            color: #333;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        .container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            grid-template-rows: auto auto;
+            gap: 25px;
+            padding: 30px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .section {
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 16px;
+            padding: 35px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            opacity: 0;
+            transform: translateY(30px);
+        }
+
+        h2, h3 {
+            color: #2c3e50;
+            margin-bottom: 20px;
+            position: relative;
+        }
+
+            h2::after, h3::after {
+                content: '';
+                position: absolute;
+                bottom: -8px;
+                left: 0;
+                width: 70px;
+                height: 3px;
+                background: linear-gradient(90deg, #3498db, #9b59b6);
+                border-radius: 3px;
+            }
+
+        .video-container {
+            position: relative;
+            padding-bottom: 56.25%;
+            height: 0;
+            overflow: hidden;
+            border-radius: 12px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+        }
+
+            .video-container iframe {
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                border: none;
+            }
+
+        .links-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 15px;
+        }
+
+        .link-item {
+            display: flex;
+            align-items: center;
+            padding: 15px 20px;
+            background: white;
+            border-radius: 10px;
+            text-decoration: none;
+            color: #2c3e50;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease;
+            transform: translateX(-20px);
+            opacity: 0;
+        }
+
+            .link-item i {
+                margin-right: 12px;
+                font-size: 20px;
+                color: #3498db;
+                transition: all 0.3s ease;
+            }
+
+    </style>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <div class="section" id="info-section" style="grid-column: 1; grid-row: 1;">
+            <h2>Информация</h2>
+            <p>Добро пожаловать на нашу образовательную платформу. Здесь вы найдете полезные материалы и ресурсы для изучения современных веб-технологий.</p>
+            <p>Наша миссия - сделать обучение программированию доступным и увлекательным для каждого.</p>
+            <div class="stats">
+                <div class="stat-item">
+                    <span class="stat-number" data-target="150">0</span>
+                    <span class="stat-label">Видеоуроков</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number" data-target="5000">0</span>
+                    <span class="stat-label">Студентов</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="section" id="video-section" style="grid-column: 2; grid-row: 1 / span 2;">
+            <h3>Последнее видео</h3>
+            <div class="video-container">
+                <iframe src="https://www.youtube.com/embed/QZusjn4lAQ8" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+            </div>
+        </div>
+
+        <div class="section" id="links-section" style="grid-column: 1; grid-row: 2;">
+            <h3>Полезные ресурсы</h3>
+            <div class="links-grid">
+                <a href="#" class="link-item" data-delay="0">
+                    <i class="fas fa-book"></i>
+                    <span>Полезная Информация </span>
+                </a>
+                <a href="#" class="link-item" data-delay="200">
+                    <i class="fas fa-users"></i>
+                    <span>Сообщества</span>
+                </a>
+
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // Анимация появления секций
+            animateSections();
+
+            // Анимация статистики
+            animateStats();
+
+            // Анимация ссылок
+            animateLinks();
+
+            // Эффекты при наведении
+            setupHoverEffects();
+        });
+
+        function animateSections() {
+            const sections = document.querySelectorAll('.section');
+
+            sections.forEach((section, index) => {
+                setTimeout(() => {
+                    section.style.transition = 'opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1)';
+                    section.style.opacity = '1';
+                    section.style.transform = 'translateY(0)';
+                }, index * 200);
+            });
+        }
+
+        function animateStats() {
+            const statNumbers = document.querySelectorAll('.stat-number');
+
+            statNumbers.forEach(stat => {
+                const target = parseInt(stat.getAttribute('data-target'));
+                const duration = 2000;
+                const startTime = Date.now();
+
+                const animate = () => {
+                    const now = Date.now();
+                    const progress = Math.min((now - startTime) / duration, 1);
+                    const value = Math.floor(progress * target);
+
+                    stat.textContent = value.toLocaleString();
+
+                    if (progress < 1) {
+                        requestAnimationFrame(animate);
+                    }
+                };
+
+                setTimeout(animate, 500);
+            });
+        }
+
+        function animateLinks() {
+            const links = document.querySelectorAll('.link-item');
+
+            links.forEach(link => {
+                const delay = parseInt(link.getAttribute('data-delay'));
+
+                setTimeout(() => {
+                    link.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+                    link.style.opacity = '1';
+                    link.style.transform = 'translateX(0)';
+
+                    // Эффект при наведении
+                    link.addEventListener('mouseenter', () => {
+                        link.style.transform = 'translateX(5px)';
+                        link.style.boxShadow = '0 8px 15px rgba(0, 0, 0, 0.1)';
+                        link.querySelector('i').style.transform = 'scale(1.2)';
+                    });
+
+                    link.addEventListener('mouseleave', () => {
+                        link.style.transform = 'translateX(0)';
+                        link.style.boxShadow = '0 4px 6px rgba(0, 0, 0, 0.05)';
+                        link.querySelector('i').style.transform = 'scale(1)';
+                    });
+                }, 600 + delay);
+            });
+        }
+
+        function setupHoverEffects() {
+            // Эффект для видео
+            const videoContainer = document.querySelector('.video-container');
+
+            videoContainer.addEventListener('mouseenter', () => {
+                videoContainer.style.transform = 'scale(1.02)';
+                videoContainer.style.boxShadow = '0 15px 30px rgba(0, 0, 0, 0.2)';
+            });
+
+            videoContainer.addEventListener('mouseleave', () => {
+                videoContainer.style.transform = 'scale(1)';
+                videoContainer.style.boxShadow = '0 10px 20px rgba(0, 0, 0, 0.15)';
+            });
+
+            // Эффект для заголовков
+            const headings = document.querySelectorAll('h2, h3');
+
+            headings.forEach(heading => {
+                heading.addEventListener('mouseenter', () => {
+                    const underline = heading.querySelector('::after');
+                    heading.style.transform = 'translateX(5px)';
+                });
+
+                heading.addEventListener('mouseleave', () => {
+                    heading.style.transform = 'translateX(0)';
+                });
+            });
+        }
+
+        // Парящие частицы фона
+        function createFloatingParticles() {
+            const colors = ['#3498db', '#9b59b6', '#e74c3c', '#2ecc71'];
+
+            for (let i = 0; i < 20; i++) {
+                const particle = document.createElement('div');
+                particle.style.position = 'fixed';
+                particle.style.width = `${Math.random() * 10 + 5}px`;
+                particle.style.height = particle.style.width;
+                particle.style.background = colors[Math.floor(Math.random() * colors.length)];
+                particle.style.borderRadius = '50%';
+                particle.style.opacity = '0.3';
+                particle.style.zIndex = '-1';
+                particle.style.left = `${Math.random() * 100}%`;
+                particle.style.top = `${Math.random() * 100}%`;
+
+                document.body.appendChild(particle);
+
+                // Анимация движения
+                animateParticle(particle);
+            }
+        }
+
+        function animateParticle(particle) {
+            const duration = Math.random() * 20000 + 10000;
+            const xMovement = (Math.random() - 0.5) * 100;
+            const yMovement = (Math.random() - 0.5) * 100;
+
+            const keyframes = [
+                { transform: 'translate(0, 0)' },
+                { transform: `translate(${xMovement}px, ${yMovement}px` }
+            ];
+
+            const options = {
+                duration: duration,
+                iterations: Infinity,
+                direction: 'alternate',
+                easing: 'ease-in-out'
+            };
+
+            particle.animate(keyframes, options);
+        }
+
+        // Создаем частицы после загрузки
+        setTimeout(createFloatingParticles, 1000);
+    </script>
+</body>
+</html>

@@ -1,0 +1,845 @@
+﻿<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Выбор еды</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background: #1a1a2e;
+            color: #ffffff;
+            font-family: 'Segoe UI', system-ui, sans-serif;
+            min-height: 100vh;
+            overflow-x: hidden;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 1200px;
+            padding: 2rem;
+        }
+
+        h1 {
+            font-weight: 800;
+            font-size: 2.5rem;
+            background: linear-gradient(90deg, #ff9a8b, #ff6b95, #ff8e53);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            margin-bottom: 2rem;
+            text-align: center;
+            letter-spacing: -0.5px;
+            text-shadow: 0 2px 10px rgba(255, 106, 149, 0.3);
+        }
+
+        .meal-item {
+            cursor: pointer;
+            border: none;
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+            position: relative;
+            z-index: 1;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+            .meal-item::before {
+                content: '';
+                position: absolute;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                border-radius: 16px;
+                padding: 2px;
+                background: linear-gradient(135deg, rgba(255, 154, 139, 0.3), rgba(255, 107, 149, 0.3), rgba(255, 142, 83, 0.3));
+                -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+                -webkit-mask-composite: xor;
+                mask-composite: exclude;
+                pointer-events: none;
+                z-index: -1;
+            }
+
+        .card-img-top {
+            height: 180px;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+
+        .card-body {
+            padding: 1.5rem;
+        }
+
+        .card-text {
+            font-size: 1.25rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: #ffffff;
+        }
+
+        .selected-products {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-top: 0.5rem;
+            min-height: 40px;
+        }
+
+        .product-circle {
+            width: 36px;
+            height: 36px;
+            background: linear-gradient(135deg, #ff9a8b, #ff6b95, #ff8e53);
+            color: #0f0f13;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            font-size: 1rem;
+            font-weight: 700;
+            border: none;
+            box-shadow: 0 4px 12px rgba(255, 107, 149, 0.3);
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .modal-content {
+            background: rgba(26, 26, 46, 0.98);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            box-shadow: 0 16px 40px rgba(0, 0, 0, 0.3);
+            transition: transform 0.3s ease, opacity 0.3s ease;
+        }
+
+        .modal-header {
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 1.5rem;
+        }
+
+        .modal-title {
+            font-weight: 700;
+            font-size: 1.5rem;
+            background: linear-gradient(90deg, #ff9a8b, #ff6b95, #ff8e53);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .modal-body {
+            padding: 1.5rem;
+        }
+
+        .btn-close {
+            filter: invert(1);
+            opacity: 0.8;
+        }
+
+        .btn-outline-success {
+            border: 2px solid rgba(255, 107, 149, 0.3);
+            color: #ffffff;
+            border-radius: 50px;
+            padding: 0.5rem 1.25rem;
+            font-weight: 600;
+            background: transparent;
+            position: relative;
+            overflow: hidden;
+            margin: 0.25rem;
+            transition: transform 0.2s ease, background 0.2s ease, border-color 0.2s ease;
+        }
+
+            .btn-outline-success:hover {
+                color: #0f0f13;
+            }
+
+        .food-particle {
+            position: fixed;
+            font-size: 1.2rem;
+            z-index: -1;
+            pointer-events: none;
+            opacity: 0;
+        }
+
+        .glow {
+            position: fixed;
+            width: 150px;
+            height: 150px;
+            background: radial-gradient(circle, rgba(255, 107, 149, 0.2) 0%, transparent 70%);
+            pointer-events: none;
+            z-index: -1;
+            border-radius: 50%;
+            filter: blur(20px);
+            transform: translate(-50%, -50%);
+        }
+    </style>
+</head>
+<body class="d-flex flex-column align-items-center py-4">
+    <div class="glow" id="glowEffect"></div>
+
+    <!-- Ваш существующий HTML остается без изменений -->
+    <div class="container text-center">
+        <h1 class="mb-4">Выберите приём пищи</h1>
+        <div class="row row-cols-2 row-cols-md-4 g-4">
+            <div class="col" onclick="openModal(this, 'Завтрак')">
+                <div class="card meal-item">
+                    <img src="/Images/11.jpg" class="card-img-top" alt="Завтрак">
+                    <div class="card-body">
+                        <p class="card-text">Завтрак</p>
+                        <div class="selected-products"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="col" onclick="openModal(this, 'Обед')">
+                <div class="card meal-item">
+                    <img src="/Images/12.jpg" class="card-img-top" alt="Обед">
+                    <div class="card-body">
+                        <p class="card-text">Обед</p>
+                        <div class="selected-products"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="col" onclick="openModal(this, 'Ужин')">
+                <div class="card meal-item">
+                    <img src="/Images/13.jpg" class="card-img-top" alt="Ужин">
+                    <div class="card-body">
+                        <p class="card-text">Ужин</p>
+                        <div class="selected-products"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="col" onclick="openModal(this, 'Ланч')">
+                <div class="card meal-item">
+                    <img src="/Images/14.jpg" class="card-img-top" alt="Ланч">
+                    <div class="card-body">
+                        <p class="card-text">Ланч</p>
+                        <div class="selected-products"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="mealModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="mealTitle">Выберите продукт</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Закрыть"></button>
+                </div>
+                <div class="modal-body text-center" id="productList">
+                    @foreach (var product in Model)
+                    {
+                        <button class="btn btn-outline-success m-1" onclick="addProduct('@product.Name')">
+                            @product.Name
+                        </button>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Глобальные переменные
+        let selectedMealItem = null;
+        const modal = new bootstrap.Modal(document.getElementById('mealModal'));
+        const foodIcons = ['🍎', '🍌', '🍊', '🍐', '🍇', '🍓', '🥕', '🥦', '🍅', '🥒', '🥬', '🍞', '🧀', '🥛', '🥚', '🍗', '🐟', '🍚', '🍝', '🥔'];
+        let animationFrameId;
+        let floatingFood = [];
+
+        // Инициализация при загрузке
+        document.addEventListener('DOMContentLoaded', function() {
+            setupGlowEffect();
+            createFloatingFood(15);
+            setupCardHoverEffects();
+            setupButtonHoverEffects();
+            animatePageLoad();
+        });
+
+        // Анимация загрузки страницы
+        function animatePageLoad() {
+            const title = document.querySelector('h1');
+            const cards = document.querySelectorAll('.meal-item');
+
+            // Начальное состояние
+            title.style.opacity = '0';
+            title.style.transform = 'translateY(-20px)';
+
+            cards.forEach(card => {
+                card.style.opacity = '0';
+                card.style.transform = 'translateY(30px) scale(0.95)';
+            });
+
+            // Анимация заголовка
+            animate({
+                element: title,
+                duration: 800,
+                properties: {
+                    opacity: 1,
+                    translateY: 0
+                },
+                easing: 'easeOutBack'
+            });
+
+            // Анимация карточек
+            cards.forEach((card, index) => {
+                setTimeout(() => {
+                    animate({
+                        element: card,
+                        duration: 600,
+                        properties: {
+                            opacity: 1,
+                            translateY: 0,
+                            scale: 1
+                        },
+                        easing: 'easeOutBack'
+                    });
+                }, index * 100);
+            });
+        }
+
+        // Универсальная функция анимации
+        function animate({element, duration, properties, easing = 'ease', delay = 0, onComplete}) {
+            const startTime = Date.now();
+            const initialValues = {};
+
+            // Запоминаем начальные значения
+            for (const prop in properties) {
+                if (prop === 'scale') {
+                    initialValues.scale = parseFloat(element.style.transform.match(/scale\(([^)]+)\)/) || 1);
+                } else if (prop === 'translateY') {
+                    initialValues.translateY = parseFloat(element.style.transform.match(/translateY\(([^)]+)px\)/) || 0);
+                } else {
+                    initialValues[prop] = parseFloat(getComputedStyle(element)[prop]) || 0;
+                }
+            }
+
+            function update() {
+                const elapsed = Date.now() - startTime - delay;
+                if (elapsed < 0) {
+                    requestAnimationFrame(update);
+                    return;
+                }
+
+                const progress = Math.min(elapsed / duration, 1);
+                let easedProgress;
+
+                // Применяем easing
+                switch(easing) {
+                    case 'easeOutBack':
+                        easedProgress = easeOutBack(progress);
+                        break;
+                    case 'easeOutElastic':
+                        easedProgress = easeOutElastic(progress);
+                        break;
+                    default:
+                        easedProgress = progress;
+                }
+
+                // Применяем изменения к свойствам
+                for (const prop in properties) {
+                    const initial = initialValues[prop];
+                    const target = properties[prop];
+
+                    if (prop === 'scale') {
+                        const value = initial + (target - initial) * easedProgress;
+                        element.style.transform = `translateY(${initialValues.translateY || 0}px) scale(${value})`;
+                    } else if (prop === 'translateY') {
+                        const value = initial + (target - initial) * easedProgress;
+                        element.style.transform = `translateY(${value}px) scale(${initialValues.scale || 1})`;
+                    } else {
+                        const value = initial + (target - initial) * easedProgress;
+                        element.style[prop] = value;
+                    }
+                }
+
+                if (progress < 1) {
+                    requestAnimationFrame(update);
+                } else if (onComplete) {
+                    onComplete();
+                }
+            }
+
+            requestAnimationFrame(update);
+        }
+
+        // Функции easing
+        function easeOutBack(x) {
+            const c1 = 1.70158;
+            const c3 = c1 + 1;
+            return 1 + c3 * Math.pow(x - 1, 3) + c1 * Math.pow(x - 1, 2);
+        }
+
+        function easeOutElastic(x) {
+            const c4 = (2 * Math.PI) / 3;
+            return x === 0 ? 0 : x === 1 ? 1 : Math.pow(2, -10 * x) * Math.sin((x * 10 - 0.75) * c4) + 1;
+        }
+
+        // Эффект свечения, следующего за курсором
+        function setupGlowEffect() {
+            const glow = document.getElementById('glowEffect');
+
+            document.addEventListener('mousemove', (e) => {
+                animate({
+                    element: glow,
+                    duration: 100,
+                    properties: {
+                        left: e.clientX,
+                        top: e.clientY
+                    }
+                });
+            });
+        }
+
+        // Создание плавающих иконок еды
+        function createFloatingFood(count) {
+            for (let i = 0; i < count; i++) {
+                const food = document.createElement('div');
+                food.className = 'food-particle';
+                food.textContent = foodIcons[Math.floor(Math.random() * foodIcons.length)];
+
+                const size = Math.random() * 1.5 + 1;
+                const posX = Math.random() * 100;
+                const posY = Math.random() * 100;
+                const opacity = Math.random() * 0.4 + 0.1;
+                const duration = Math.random() * 20000 + 10000;
+                const delay = Math.random() * 10000;
+
+                food.style.fontSize = `${size}rem`;
+                food.style.left = `${posX}%`;
+                food.style.top = `${posY}%`;
+                food.style.opacity = opacity;
+
+                document.body.appendChild(food);
+
+                floatingFood.push({
+                    element: food,
+                    startX: posX,
+                    startY: posY,
+                    endX: Math.random() * 80 + 10,
+                    endY: Math.random() * 80 + 10,
+                    startTime: Date.now() + delay,
+                    duration: duration,
+                    rotation: Math.random() * 360
+                });
+            }
+
+            animateFloatingFood();
+        }
+
+        // Анимация плавающих иконок еды
+        function animateFloatingFood() {
+            const currentTime = Date.now();
+
+            floatingFood.forEach(item => {
+                if (currentTime < item.startTime) return;
+
+                const elapsed = currentTime - item.startTime;
+                const progress = Math.min(elapsed / item.duration, 1);
+
+                const x = item.startX + (item.endX - item.startX) * progress;
+                const y = item.startY + (item.endY - item.startY) * progress;
+                const rotation = item.rotation + progress * 360;
+
+                item.element.style.left = `${x}%`;
+                item.element.style.top = `${y}%`;
+                item.element.style.transform = `rotate(${rotation}deg)`;
+
+                if (progress >= 1) {
+                    item.startX = item.endX;
+                    item.startY = item.endY;
+                    item.endX = Math.random() * 80 + 10;
+                    item.endY = Math.random() * 80 + 10;
+                    item.startTime = currentTime;
+                    item.duration = Math.random() * 20000 + 10000;
+                }
+            });
+
+            animationFrameId = requestAnimationFrame(animateFloatingFood);
+        }
+
+        // Настройка эффектов при наведении на карточки
+        function setupCardHoverEffects() {
+            const cards = document.querySelectorAll('.meal-item');
+
+            cards.forEach(card => {
+                const img = card.querySelector('.card-img-top');
+
+                card.addEventListener('mouseenter', () => {
+                    animate({
+                        element: card,
+                        duration: 300,
+                        properties: {
+                            translateY: -8,
+                            scale: 1.03
+                        },
+                        easing: 'easeOutBack'
+                    });
+
+                    animate({
+                        element: img,
+                        duration: 300,
+                        properties: {
+                            scale: 1.1
+                        }
+                    });
+
+                    createFoodHoverParticles(card);
+                });
+
+                card.addEventListener('mouseleave', () => {
+                    animate({
+                        element: card,
+                        duration: 300,
+                        properties: {
+                            translateY: 0,
+                            scale: 1
+                        }
+                    });
+
+                    animate({
+                        element: img,
+                        duration: 300,
+                        properties: {
+                            scale: 1
+                        }
+                    });
+                });
+            });
+        }
+
+        // Эффект иконок еды при наведении
+        function createFoodHoverParticles(card) {
+            const rect = card.getBoundingClientRect();
+            const centerX = rect.left + rect.width / 2;
+            const centerY = rect.top + rect.height / 2;
+
+            for (let i = 0; i < 5; i++) {
+                const food = document.createElement('div');
+                food.className = 'food-particle';
+                food.textContent = foodIcons[Math.floor(Math.random() * foodIcons.length)];
+                food.style.fontSize = `${Math.random() * 1 + 1}rem`;
+                food.style.left = `${centerX}px`;
+                food.style.top = `${centerY}px`;
+                food.style.zIndex = '1';
+
+                document.body.appendChild(food);
+
+                setTimeout(() => {
+                    animate({
+                        element: food,
+                        duration: 300,
+                        properties: {
+                            opacity: 0.8
+                        }
+                    });
+
+                    const angle = Math.random() * Math.PI * 2;
+                    const distance = Math.random() * 50 + 30;
+                    const x = Math.cos(angle) * distance;
+                    const y = Math.sin(angle) * distance;
+
+                    animate({
+                        element: food,
+                        duration: 600,
+                        properties: {
+                            left: centerX + x,
+                            top: centerY + y,
+                            rotate: Math.random() * 360
+                        },
+                        easing: 'easeOutBack',
+                        onComplete: () => {
+                            animate({
+                                element: food,
+                                duration: 300,
+                                properties: {
+                                    opacity: 0
+                                },
+                                onComplete: () => food.remove()
+                            });
+                        }
+                    });
+                }, i * 100);
+            }
+        }
+
+        // Настройка эффектов при наведении на кнопки
+        function setupButtonHoverEffects() {
+            const buttons = document.querySelectorAll('#productList .btn');
+
+            buttons.forEach(btn => {
+                btn.addEventListener('mouseenter', () => {
+                    animate({
+                        element: btn,
+                        duration: 200,
+                        properties: {
+                            translateY: -2,
+                            scale: 1.05
+                        },
+                        easing: 'easeOutBack'
+                    });
+                });
+
+                btn.addEventListener('mouseleave', () => {
+                    animate({
+                        element: btn,
+                        duration: 200,
+                        properties: {
+                            translateY: 0,
+                            scale: 1
+                        }
+                    });
+                });
+            });
+        }
+
+        // Открытие модального окна
+        function openModal(mealItem, meal) {
+            selectedMealItem = mealItem;
+            document.getElementById("mealTitle").innerText = "Выберите продукты для " + meal;
+
+            const modalContent = document.querySelector('.modal-content');
+            modalContent.style.opacity = '0';
+            modalContent.style.transform = 'scale(0.95) translateY(20px)';
+
+            modal.show();
+
+            setTimeout(() => {
+                animate({
+                    element: modalContent,
+                    duration: 300,
+                    properties: {
+                        opacity: 1,
+                        translateY: 0,
+                        scale: 1
+                    },
+                    easing: 'easeOutBack'
+                });
+
+                animateProductButtons();
+            }, 50);
+        }
+
+        // Анимация кнопок продуктов
+        function animateProductButtons() {
+            const buttons = document.querySelectorAll('#productList .btn');
+
+            buttons.forEach((btn, index) => {
+                btn.style.opacity = '0';
+                btn.style.transform = 'translateY(10px) scale(0.9)';
+
+                setTimeout(() => {
+                    animate({
+                        element: btn,
+                        duration: 300,
+                        properties: {
+                            opacity: 1,
+                            translateY: 0,
+                            scale: 1
+                        },
+                        easing: 'easeOutBack'
+                    });
+                }, index * 50);
+            });
+        }
+
+        // Добавление продукта
+        function addProduct(productName) {
+            if (!selectedMealItem) return;
+
+            const container = selectedMealItem.querySelector('.selected-products');
+            const productCircle = document.createElement("div");
+            productCircle.classList.add("product-circle");
+
+            const emoji = productName.match(/[\u{1F300}-\u{1F9FF}]/u) || ['🍕'];
+            productCircle.innerHTML = `<span style="font-size: 1.2em">${emoji[0]}</span>`;
+            productCircle.title = productName;
+
+            productCircle.style.transform = 'scale(0) rotate(-90deg)';
+            productCircle.style.opacity = '0';
+
+            productCircle.addEventListener('mouseenter', () => {
+                animate({
+                    element: productCircle,
+                    duration: 200,
+                    properties: {
+                        scale: 1.2,
+                        rotate: 10
+                    },
+                    easing: 'easeOutBack'
+                });
+            });
+
+            productCircle.addEventListener('mouseleave', () => {
+                animate({
+                    element: productCircle,
+                    duration: 200,
+                    properties: {
+                        scale: 1,
+                        rotate: 0
+                    }
+                });
+            });
+
+            productCircle.onclick = function(e) {
+                e.stopPropagation();
+                animateProductRemoval(this);
+            };
+
+            container.appendChild(productCircle);
+
+            setTimeout(() => {
+                animate({
+                    element: productCircle,
+                    duration: 500,
+                    properties: {
+                        scale: 1,
+                        rotate: 0,
+                        opacity: 1
+                    },
+                    easing: 'easeOutElastic'
+                });
+
+                createFoodConfetti(container, productName);
+
+                setTimeout(() => {
+                    animate({
+                        element: productCircle,
+                        duration: 250,
+                        properties: {
+                            translateY: -15
+                        },
+                        onComplete: () => {
+                            animate({
+                                element: productCircle,
+                                duration: 250,
+                                properties: {
+                                    translateY: 0
+                                },
+                                easing: 'easeOutBounce'
+                            });
+                        }
+                    });
+                }, 100);
+            }, 10);
+        }
+
+        // Эффект конфетти при добавлении продукта
+        function createFoodConfetti(container, productName) {
+            const rect = container.getBoundingClientRect();
+            const centerX = rect.left + rect.width / 2;
+            const centerY = rect.top + rect.height / 2;
+            const emoji = productName.match(/[\u{1F300}-\u{1F9FF}]/u) || ['🍕'];
+
+            for (let i = 0; i < 12; i++) {
+                const confetti = document.createElement('div');
+                confetti.className = 'food-particle';
+                confetti.textContent = emoji[0];
+                confetti.style.fontSize = `${Math.random() * 1 + 1}rem`;
+                confetti.style.left = `${centerX}px`;
+                confetti.style.top = `${centerY}px`;
+                confetti.style.zIndex = '1000';
+
+                document.body.appendChild(confetti);
+
+                setTimeout(() => {
+                    animate({
+                        element: confetti,
+                        duration: 300,
+                        properties: {
+                            opacity: 1
+                        }
+                    });
+
+                    const angle = Math.random() * Math.PI * 2;
+                    const distance = Math.random() * 150 + 50;
+                    const x = Math.cos(angle) * distance;
+                    const y = Math.sin(angle) * distance - 100;
+
+                    animate({
+                        element: confetti,
+                        duration: 1200,
+                        properties: {
+                            left: centerX + x,
+                            top: centerY + y,
+                            rotate: Math.random() * 360
+                        },
+                        easing: 'easeOutBack',
+                        onComplete: () => {
+                            animate({
+                                element: confetti,
+                                duration: 300,
+                                properties: {
+                                    opacity: 0
+                                },
+                                onComplete: () => confetti.remove()
+                            });
+                        }
+                    });
+                }, i * 50);
+            }
+        }
+
+        // Анимация удаления продукта
+        function animateProductRemoval(element) {
+            animate({
+                element: element,
+                duration: 400,
+                properties: {
+                    scale: 0,
+                    rotate: 180,
+                    opacity: 0
+                },
+                easing: 'easeInBack',
+                onComplete: () => {
+                    element.remove();
+                    createRemovalParticles(element);
+                }
+            });
+        }
+
+        // Эффект частиц при удалении
+        function createRemovalParticles(element) {
+            const rect = element.getBoundingClientRect();
+            const centerX = rect.left + rect.width / 2;
+            const centerY = rect.top + rect.height / 2;
+            const emoji = element.textContent;
+
+            for (let i = 0; i < 8; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'food-particle';
+                particle.textContent = emoji;
+                particle.style.fontSize = '1rem';
+                particle.style.left = `${centerX}px`;
+                particle.style.top = `${centerY}px`;
+                particle.style.opacity = '1';
+                particle.style.zIndex = '1000';
+
+                document.body.appendChild(particle);
+
+                const angle = Math.random() * Math.PI * 2;
+                const distance = Math.random() * 60 + 30;
+                const x = Math.cos(angle) * distance;
+                const y = Math.sin(angle) * distance;
+
+                animate({
+                    element: particle,
+                    duration: 600,
+                    properties: {
+                        left: centerX + x,
+                        top: centerY + y,
+                        rotate: Math.random() * 360,
+                        opacity: 0
+                    },
+                    easing: 'easeOutBack',
+                    onComplete: () => particle.remove()
+                });
+            }
+        }
+    </script>
+</body>
+</html>

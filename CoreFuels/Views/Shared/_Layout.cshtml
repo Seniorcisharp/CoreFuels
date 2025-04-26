@@ -1,0 +1,336 @@
+﻿@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>@ViewBag.Title - My MVC App</title>
+</head>
+<body>
+    <header>
+        <nav class="navbar">
+            <div class="logo">Startup Sports</div>
+            <ul class="nav-links">
+                @if (!User.Identity.IsAuthenticated)
+                {
+                    <li><a href="/Login/UserPage">Login</a></li>
+                    <li><a href="/Authorization/Index">Sign Up</a></li>
+                }
+                else
+                    
+                {
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="userMenu" data-bs-toggle="dropdown">
+                            <img src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png" width="30" height="30" class="rounded-circle" />
+                            @User.Identity.Name
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="userMenu">
+                            <li>
+                                <form asp-controller="Login" asp-action="Logout" method="post">
+                                    <button type="submit">Выйти</button>
+                                </form>
+
+                            </li>
+                        </ul>
+                    </li>
+                }
+
+            </ul>
+        </nav>
+
+    </header>
+    @RenderSection("Head", required: false)
+    <main>
+        @RenderBody()
+    </main>
+
+    @RenderSection("Script", required: false)
+
+</body>
+</html>
+<style>
+    * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      
+        background-image: url('/Images/7.jpg'); /* Укажи свой путь */
+        background-size: cover; /* Масштабирование без потери пропорций */
+        background-position: center; /* Центрирование */
+        background-repeat: no-repeat; /* Без повторения */
+        background-attachment: fixed; /* Фон остаётся на месте при прокрутке */
+        image-rendering: crisp-edges; /* Улучшает чёткость */
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    overflow: hidden;
+}
+
+/* Smooth transitions across the page */
+html {
+    scroll-behavior: smooth;
+    transition: all 0.3s ease;
+}
+
+    .container {
+        height: 500px;
+        position: relative;
+        background: rgba(140, 140, 140, 0.1);
+        padding: 100px 40px 40px; /* Верхний отступ для пространства под полукруг */
+        border-radius: 200px 200px 20px 20px; /* Скругление: верхние углы - 200px, нижние - 20px */
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6);
+        width: 600px; /* Ширина контейнера */
+        color: #ffffff;
+        text-align: center;
+        border: none;
+        transition: all 0.5s ease-in-out;
+        overflow: hidden;
+        backdrop-filter: blur(14px) saturate(192%);
+        -webkit-backdrop-filter: blur(12px) saturate(192%);
+        border: 1px solid rgba(209, 213, 219, 0.3);
+    }
+
+
+
+
+
+        .container:hover {
+            transform: scale(1.05);
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.8);
+            background: rgba(255, 255, 255, 0.15);
+        }
+
+        /* Полукруг сверху */
+      /*  .container::before {
+            content: "";
+            position: absolute;
+            top: -15px; /* Смещение вверх */
+            left: 50%;
+            transform: translateX(-50%);
+            width: 300px;
+            height: 150px;
+            background: rgba(255, 255, 255, 0.15);
+            border-bottom: none; /* Убираем границу по диаметру */
+            border-radius: 135px 135px 0 0; /* Полукруглая форма */
+          
+            z-index: -1;
+        } */ 
+
+
+.title {
+    font-size: 2.5rem;
+    color: #ff6b6b;
+    margin-bottom: 20px;
+    letter-spacing: 2px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+    animation: glow 1.5s infinite alternate;
+}
+
+/* Title glowing effect */
+
+.textbox {
+    width: 100%;
+    padding: 15px 20px;
+    margin: 15px 0;
+    border: none;
+    border-radius: 10px;
+    font-size: 1rem;
+    background: rgba(255, 255, 255, 0.9);
+    color: #333;
+    transition: all 0.4s ease;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.textbox:focus {
+    outline: none;
+    background: #ffffff;
+    box-shadow: 0 0 15px rgba(255, 107, 107, 0.6);
+    transform: scale(1.02);
+}
+
+.submit-btn {
+    width: 100%;
+    padding: 15px;
+    background-color: #928dab;
+    color: white;
+    font-size: 1.2rem;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.submit-btn:hover {
+    background-color: #6f5c8c;
+    transform: translateY(-3px);
+    box-shadow: 0 5px 15px rgba(146, 141, 171, 0.7);
+}
+
+.additional-link {
+    margin-top: 15px;
+    font-size: 0.9rem;
+    color: #8d99ae;
+}
+
+.additional-link a {
+    color: #928dab;
+    text-decoration: none;
+    transition: color 0.3s ease, transform 0.2s ease;
+}
+
+.additional-link a:hover {
+    color: #6f5c8c;
+    text-decoration: underline;
+    transform: scale(1.05);
+}
+
+.alert {
+    padding: 10px;
+    margin-bottom: 20px;
+    border-radius: 5px;
+    font-weight: bold;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.3);
+    opacity: 0.9;
+    transition: opacity 0.3s ease;
+}
+
+.alert:hover {
+    opacity: 1;
+}
+
+.alert-success {
+    background-color: #4caf50;
+    color: white;
+}
+
+.alert-danger {
+    background-color: #f44336;
+    color: white;
+}
+
+/* Navbar styles */
+header {
+
+    position: fixed;
+    width: 100%;
+    top: 0;
+    left: 0;
+    z-index: 1000;
+    transition: all 0.3s ease;
+}
+
+
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 50px;
+}
+
+.logo {
+    font-size: 1.8rem;
+    font-weight: bold;
+    color: #928dab;
+    transition: transform 0.2s ease;
+}
+
+.logo:hover {
+    transform: scale(1.1);
+}
+
+.nav-links {
+    list-style: none;
+    display: flex;
+    gap: 30px;
+}
+
+.nav-links a {
+    color: #ffffff;
+    text-decoration: none;
+    font-size: 1.1rem;
+    font-weight: bold;
+    padding: 10px 20px;
+    transition: all 0.3s ease;
+    border-radius: 25px;
+}
+
+.nav-links a:hover {
+    background: #928dab;
+    color: #ffffff;
+    box-shadow: 0 4px 10px rgba(146, 141, 171, 0.7);
+    transform: translateY(-3px);
+}
+
+    .main {
+        padding-top: 100px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 80vh;
+        gap: 200px; /* Увеличено расстояние между элементами */
+
+    }
+
+    /* Fruit style animation */
+    .fruit {
+        
+        color: #ff6b6b;
+        margin-bottom: 15px;
+        text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.7);
+        font-weight: bold;
+        transition: color 0.3s ease-in-out, transform 0.3s ease;
+        margin-top: -100px; /* Опущено ниже */
+    }
+
+        .fruit img {
+            width: 100px; /* или другой нужный размер */
+            height: auto; /* чтобы сохранить пропорции */
+        }
+
+        .fruit:hover {
+            color: #ff4b4b;
+            transform: rotate(-5deg);
+        }
+
+    /* Jersey style animation */
+    .jersey {
+        font-size: 6rem;
+        color: #ff6b6b;
+        margin-bottom: 15px;
+        text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.7);
+        font-weight: bold;
+        transition: color 0.3s ease-in-out, transform 0.3s ease;
+        margin-top: -100px; /* Опущено ниже */
+    }
+         .jersey img{
+        width: 100px;
+        height: auto;
+          }
+
+        .jersey:hover {
+            color: #ff4b4b;
+            transform: rotate(5deg);
+        }
+
+    .jersey, .fruit {
+        display: inline-block;
+    }
+
+
+    /* Smooth button animations */
+button {
+    transition: all 0.3s ease;
+    border: none;
+    border-radius: 10px;
+}
+
+button:hover {
+    transform: scale(1.05);
+}
+</style>

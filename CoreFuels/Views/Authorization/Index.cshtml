@@ -1,0 +1,361 @@
+﻿@model CoreFuels.Model.AuthorizationModel
+
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fuel Your Performance | Sign Up</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', -apple-system, sans-serif;
+        }
+
+        body {
+            background-color: #0a0a0a;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            color: #e0e0e0;
+            overflow: hidden;
+            position: relative;
+            background-image: radial-gradient(circle at 20% 30%, rgba(74, 128, 240, 0.1) 0%, transparent 20%), radial-gradient(circle at 80% 70%, rgba(74, 128, 240, 0.1) 0%, transparent 20%);
+        }
+
+        .container {
+            background-color: rgba(30, 30, 30, 0.95);
+            padding: 2.5rem;
+            border-radius: 0.5rem;
+            width: 380px;
+            border: 1px solid #333;
+            z-index: 10;
+            position: relative;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(5px);
+        }
+
+        .title {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 2rem;
+            text-align: center;
+            color: #4a80f0;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            background: linear-gradient(90deg, #4a80f0, #6a9fff);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            position: relative;
+        }
+
+            .title::after {
+                content: "";
+                position: absolute;
+                bottom: -10px;
+                left: 50%;
+                transform: translateX(-50%);
+                width: 60px;
+                height: 3px;
+                background: linear-gradient(90deg, #4a80f0, #6a9fff);
+                border-radius: 3px;
+            }
+
+        .input-container {
+            position: relative;
+            margin-bottom: 1.5rem;
+        }
+
+        .textbox {
+            width: 100%;
+            padding: 0.9rem 1rem 0.9rem 2.5rem;
+            background: #252525;
+            border: 1px solid #333;
+            border-radius: 0.3rem;
+            color: #fff;
+            font-size: 0.95rem;
+            transition: all 0.3s ease;
+        }
+
+            .textbox:focus {
+                outline: none;
+                border-color: #4a80f0;
+                box-shadow: 0 0 0 2px rgba(74, 128, 240, 0.3);
+            }
+
+        .input-icon {
+            position: absolute;
+            left: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #4a80f0;
+            font-size: 1rem;
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 1rem;
+            background: linear-gradient(90deg, #4a80f0, #6a9fff);
+            color: white;
+            border: none;
+            border-radius: 0.3rem;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+            .submit-btn::after {
+                content: "→";
+                position: absolute;
+                right: 1.5rem;
+                top: 50%;
+                transform: translateY(-50%);
+                opacity: 0;
+                transition: all 0.3s ease;
+            }
+
+            .submit-btn:hover {
+                background: linear-gradient(90deg, #3a70e0, #5a8fef);
+                box-shadow: 0 5px 15px rgba(74, 128, 240, 0.4);
+            }
+
+                .submit-btn:hover::after {
+                    opacity: 1;
+                    right: 1rem;
+                }
+
+        .additional-link {
+            margin-top: 1.8rem;
+            font-size: 0.9rem;
+            text-align: center;
+            color: #aaa;
+        }
+
+            .additional-link a {
+                color: #4a80f0;
+                text-decoration: none;
+                font-weight: 500;
+                transition: all 0.3s ease;
+            }
+
+                .additional-link a:hover {
+                    text-decoration: underline;
+                    color: #6a9fff;
+                }
+
+        .sport-bg-element {
+            position: absolute;
+            z-index: 1;
+            opacity: 0;
+            font-size: 1.5rem;
+            filter: drop-shadow(0 0 5px rgba(74, 128, 240, 0.5));
+        }
+    </style>
+</head>
+<body>
+    <!-- Анимированные спортивные элементы -->
+    <div id="sport-elements"></div>
+
+    <div class="container" id="container">
+        @if (TempData["SuccessMessage"] != null)
+        {
+            <div class="alert alert-success">
+                @TempData["SuccessMessage"]
+            </div>
+        }
+        @{
+            Layout = null;
+        }
+
+        <div class="title" id="title">Регистрация</div>
+
+        <form method="post" id="authForm">
+            <div class="input-container">
+                
+                <input type="text" class="textbox" id="username" name="login" placeholder="Введите логин" required>
+            </div>
+
+            <div class="input-container">
+               
+                <input type="password" class="textbox" id="password" name="pass" placeholder="Введите пароль" required>
+            </div>
+
+            <button type="submit" class="submit-btn" id="submitBtn">
+                <span id="btn-text">Войти</span>
+            </button>
+        </form>
+
+        <div class="additional-link">
+            Already a member? <a href="/Login/UserPage">LOG IN</a>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Элементы для анимации
+            const container = document.getElementById('container');
+            const title = document.getElementById('title');
+            const inputs = document.querySelectorAll('.textbox');
+            const btn = document.getElementById('submitBtn');
+            const btnText = document.getElementById('btn-text');
+
+            // Инициализация состояния
+            container.style.opacity = '0';
+            container.style.transform = 'translateY(30px) scale(0.95)';
+            title.style.opacity = '0';
+            inputs.forEach(input => {
+                input.style.opacity = '0';
+                input.style.transform = 'translateX(-10px)';
+            });
+            btn.style.opacity = '0';
+            btn.style.transform = 'translateY(10px)';
+
+            // Анимация появления
+            setTimeout(() => {
+                // Контейнер
+                container.style.transition = 'all 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275)';
+                container.style.opacity = '1';
+                container.style.transform = 'translateY(0) scale(1)';
+
+                // Заголовок
+                setTimeout(() => {
+                    title.style.transition = 'opacity 0.5s ease-out, transform 0.5s ease-out';
+                    title.style.opacity = '1';
+
+                    // Поля ввода
+                    inputs.forEach((input, index) => {
+                        setTimeout(() => {
+                            input.style.transition = 'all 0.4s ease-out';
+                            input.style.opacity = '1';
+                            input.style.transform = 'translateX(0)';
+                        }, index * 200);
+                    });
+
+                    // Кнопка
+                    setTimeout(() => {
+                        btn.style.transition = 'all 0.5s ease-out';
+                        btn.style.opacity = '1';
+                        btn.style.transform = 'translateY(0)';
+
+                        // Пульсация кнопки
+                        setInterval(() => {
+                            btn.style.transform = 'scale(1.02)';
+                            setTimeout(() => {
+                                btn.style.transform = 'scale(1)';
+                            }, 1000);
+                        }, 2000);
+                    }, 600);
+                }, 300);
+            }, 100);
+
+            // Создание спортивных элементов
+            function createSportElements() {
+                const container = document.getElementById('sport-elements');
+                const icons = ['🏋️', '⚡', '🥗', '🏃', '💧', '🥇', '🍎', '🏅', '🥊', '🚴', '🧘', '🥦', '🍗', '🥛', '🥑'];
+
+                for (let i = 0; i < 25; i++) {
+                    const element = document.createElement('div');
+                    element.className = 'sport-bg-element';
+                    element.textContent = icons[Math.floor(Math.random() * icons.length)];
+
+                    // Позиционирование и стили
+                    const size = Math.random() * 50 + 30;
+                    const posX = Math.random() * window.innerWidth;
+                    const posY = Math.random() * window.innerHeight;
+                    const opacity = Math.random() * 0.4 + 0.1;
+                    const delay = Math.random() * 3;
+                    const duration = Math.random() * 15 + 10;
+
+                    element.style.width = `${size}px`;
+                    element.style.height = `${size}px`;
+                    element.style.left = `${posX}px`;
+                    element.style.top = `${posY}px`;
+                    element.style.fontSize = `${size * 0.7}px`;
+                    element.style.transition = `all ${duration}s linear`;
+
+                    // Анимация появления
+                    setTimeout(() => {
+                        element.style.opacity = opacity;
+                        animateSportElement(element, duration);
+                    }, delay * 1000);
+
+                    container.appendChild(element);
+                }
+            }
+
+            // Анимация движения спортивных элементов
+            function animateSportElement(element, duration) {
+                const xMove = (Math.random() - 0.5) * 300;
+                const yMove = (Math.random() - 0.5) * 300;
+                const rotate = (Math.random() - 0.5) * 360;
+
+                element.style.transform = `translate(${xMove}px, ${yMove}px) rotate(${rotate}deg)`;
+
+                setTimeout(() => {
+                    animateSportElement(element, duration);
+                }, duration * 1000);
+            }
+
+            // Инициализация спортивных элементов
+            createSportElements();
+
+            // Анимация отправки формы
+            const form = document.getElementById('authForm');
+
+            form.addEventListener('submit', (e) => {
+                e.preventDefault();
+
+                // Эффект загрузки
+                btn.style.background = 'linear-gradient(90deg, #3a70e0, #5a8fef)';
+                btnText.textContent = 'FUELING UP...';
+
+                // Анимация стрелки
+                btn.style.paddingRight = '3rem';
+
+                // Имитация загрузки
+                setTimeout(() => {
+                    form.submit();
+                }, 2000);
+            });
+
+            // Эффекты при наведении
+            inputs.forEach(input => {
+                input.addEventListener('mouseenter', () => {
+                    input.style.background = '#2a2a2a';
+                    input.style.borderColor = '#4a80f0';
+                });
+
+                input.addEventListener('mouseleave', () => {
+                    if (document.activeElement !== input) {
+                        input.style.background = '#252525';
+                        input.style.borderColor = '#333';
+                    }
+                });
+
+                input.addEventListener('focus', () => {
+                    input.style.transform = 'translateX(0) scale(1.02)';
+                    input.style.boxShadow = '0 0 0 2px rgba(74, 128, 240, 0.3)';
+                    input.style.background = '#2a2a2a';
+                    input.style.borderColor = '#4a80f0';
+                });
+
+                input.addEventListener('blur', () => {
+                    input.style.transform = 'translateX(0) scale(1)';
+                    input.style.boxShadow = 'none';
+                    input.style.background = '#252525';
+                    input.style.borderColor = '#333';
+                });
+            });
+        });
+    </script>
+</body>
+</html>
