@@ -33,7 +33,6 @@ namespace CoreFuels.Controllers
                 return View(model);
             }
 
-            // Проверяем, есть ли уже такой пользователь
             var existingUser = await _context.Authorizations
                 .FirstOrDefaultAsync(a => a.login == model.login);
 
@@ -43,7 +42,6 @@ namespace CoreFuels.Controllers
                 return View(model);
             }
 
-            // Добавляем нового пользователя
             var newUser = new Authorization
             {
                 login = model.login,
@@ -55,12 +53,10 @@ namespace CoreFuels.Controllers
                 _context.Authorizations.Add(newUser);
                 await _context.SaveChangesAsync();
 
-                // Сохраняем информацию о пользователе в сессии
                 HttpContext.Session.SetString("UserLogin", newUser.login);
-                // Если нужно хранить более сложные данные (например, id пользователя), используйте SetInt32 или другие методы.
 
                 TempData["SuccessMessage"] = "Регистрация прошла успешно!";
-                return RedirectToAction("UserPage", "Login"); // Если пользователь не найден, редиректим на логин
+                return RedirectToAction("UserPage", "Login"); 
 
             }
             catch (Exception ex)
