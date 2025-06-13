@@ -45,7 +45,6 @@ namespace CoreFuels.Controllers
                 return View();
             }
 
-            // Авторизация через Claims
             var claims = new List<Claim>
             {
                 new Claim(ClaimTypes.Name, user.login),
@@ -70,7 +69,6 @@ namespace CoreFuels.Controllers
                 authProperties
             );
 
-            // Сохраняем в сессию (если нужно)
             HttpContext.Session.SetString("UserLogin", user.login);
             HttpContext.Session.SetString("UserId", user.Id.ToString());
 
@@ -78,7 +76,6 @@ namespace CoreFuels.Controllers
             return RedirectToAction("Index", "Home");
         }
 
-        // Защищённая страница пользователя
         public IActionResult UserProfile()
         {
             var userLogin = HttpContext.Session.GetString("UserLogin");
@@ -104,7 +101,7 @@ namespace CoreFuels.Controllers
         public async Task<IActionResult> Logout()
         {
             await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
-            HttpContext.Session.Clear(); // очищаем сессию
+            HttpContext.Session.Clear(); 
             return RedirectToAction("UserPage", "Login");
         }
 
