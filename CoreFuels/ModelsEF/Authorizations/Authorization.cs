@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 
 
-namespace CoreFuels.ModelsEF // Используйте то же пространство имен, что и в ошибке
+namespace CoreFuels.ModelsEF 
 {
   
     public class Authorization
