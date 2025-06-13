@@ -229,8 +229,16 @@
       "PackagePath": "staticwebassets\\Images\\8.jpg"
     },
     {
+      "Id": "C:\\Users\\Alex\\source\\repos\\CoreFuels\\CoreFuels\\wwwroot\\Images\\8.png",
+      "PackagePath": "staticwebassets\\Images\\8.png"
+    },
+    {
       "Id": "C:\\Users\\Alex\\source\\repos\\CoreFuels\\CoreFuels\\wwwroot\\Images\\9.jpg",
       "PackagePath": "staticwebassets\\Images\\9.jpg"
+    },
+    {
+      "Id": "C:\\Users\\Alex\\source\\repos\\CoreFuels\\CoreFuels\\wwwroot\\Images\\9.png",
+      "PackagePath": "staticwebassets\\Images\\9.png"
     },
     {
       "Id": "obj\\Debug\\net7.0\\staticwebassets\\msbuild.CoreFuels.Microsoft.AspNetCore.StaticWebAssetEndpoints.props",

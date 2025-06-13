@@ -55,4 +55,6 @@ wwwroot\Images\5.jpg
 wwwroot\Images\6.jpg
 wwwroot\Images\7.jpg
 wwwroot\Images\8.jpg
+wwwroot\Images\8.png
 wwwroot\Images\9.jpg
+wwwroot\Images\9.png

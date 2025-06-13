@@ -207,9 +207,9 @@
             <form id="workoutForm">
                 <div class="workout-options">
                     <div class="workout-option animate__animated" id="cardio">
-                        <input type="radio" class="btn-check" name="workout" id="cardio-input" value="Жим" autocomplete="off">
+                        <input type="radio" class="btn-check" name="workout" id="cardio-input" value="Армейский Жим" autocomplete="off">
                         <label for="cardio-input">
-                            <i class="fas fa-running"></i> Жим Лежа 
+                            <i class="fas fa-running"></i> Армейский  Жим 
                         </label>
                     </div>
 
@@ -221,9 +221,9 @@
                     </div>
 
                     <div class="workout-option animate__animated" id="stretching">
-                        <input type="radio" class="btn-check" name="workout" id="stretching-input" value="Армейский" autocomplete="off">
+                        <input type="radio" class="btn-check" name="workout" id="stretching-input" value="Жим" autocomplete="off">
                         <label for="stretching-input">
-                            <i class="fas fa-spa"></i> Армейский Жим
+                            <i class="fas fa-spa"></i> Жим
                         </label>
                     </div>
                 </div>
@@ -336,14 +336,14 @@
 
                     setTimeout(() => {
                         switch (selected.value) {
-                            case 'Жим':
-                                window.location.href = '/Training/Materials/BenchPress';
+                            case 'Армейский Жим':
+                                window.location.href = '/Training/ArmyBenchPress';
                                 break;
                             case 'Тяга':
-                                window.location.href = '/Training/Materials/Deadlift';
+                                window.location.href = '/Training/Deadlift';
                                 break;
-                            case 'Армейиский жим':
-                                window.location.href = '/Training/Materials/ArmyBenchPress';
+                            case 'Жим':
+                                window.location.href = '/Training/BenchPress';
                                 break;
                         }
                     }, 500);

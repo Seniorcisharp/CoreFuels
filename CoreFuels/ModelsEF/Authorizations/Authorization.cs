@@ -17,7 +17,8 @@ namespace CoreFuels.ModelsEF // Используйте то же простра�
         [Required]
         [MinLength(4)]
         public string pass { get; set; }
+        public List<Product> Products { get; set; } = new();
 
-        public virtual ICollection<Product> Products { get; set; } = new List<Product>();
+
     }
 }

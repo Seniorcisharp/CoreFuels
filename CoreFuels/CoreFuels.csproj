@@ -21,4 +21,8 @@
     <None Include="wwwroot\Images\1.jpg" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Views\Training\Materials\" />
+  </ItemGroup>
+
 </Project>

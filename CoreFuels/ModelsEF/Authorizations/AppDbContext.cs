@@ -13,13 +13,13 @@ public class AppDbContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        
+
         modelBuilder.Entity<Authorization>()
             .HasMany(a => a.Products)
             .WithMany(p => p.Users)
             .UsingEntity(j => j.ToTable("UserProducts"));
 
-        
+
         modelBuilder.Entity<Product>().HasData(
             new Product { ProductId = 1, Name = "Apple", Calories = "52", Proteins = 0.3, Fats = 0.2, Carbohydrates = 14.0 },
             new Product { ProductId = 2, Name = "Banana", Calories = "96", Proteins = 1.3, Fats = 0.3, Carbohydrates = 27.0 },

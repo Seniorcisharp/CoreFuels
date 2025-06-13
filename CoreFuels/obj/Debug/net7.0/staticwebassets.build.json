@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "M931s7lsQuv/fNIHMbhpgIt+E2U00tI2hIYEyBx+QSI=",
+  "Hash": "rJPdzSzLY46QRNLd8McGZE6YINZ50yP+TNb7gpczdoI=",
   "Source": "CoreFuels",
   "BasePath": "_content/CoreFuels",
   "Mode": "Default",
@@ -1214,6 +1214,27 @@
       "OriginalItemSpec": "wwwroot\\Images\\8.jpg"
     },
     {
+      "Identity": "C:\\Users\\Alex\\source\\repos\\CoreFuels\\CoreFuels\\wwwroot\\Images\\8.png",
+      "SourceId": "CoreFuels",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\Alex\\source\\repos\\CoreFuels\\CoreFuels\\wwwroot\\",
+      "BasePath": "_content/CoreFuels",
+      "RelativePath": "Images/8#[.{fingerprint}]?.png",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "Fingerprint": "xauxvpp6bc",
+      "Integrity": "qaoVRbGkRYZxB6LE2vsQ3eFahE3TMfDrjkghkMZsq5w=",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\Images\\8.png"
+    },
+    {
       "Identity": "C:\\Users\\Alex\\source\\repos\\CoreFuels\\CoreFuels\\wwwroot\\Images\\9.jpg",
       "SourceId": "CoreFuels",
       "SourceType": "Discovered",
@@ -1233,6 +1254,27 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\Images\\9.jpg"
+    },
+    {
+      "Identity": "C:\\Users\\Alex\\source\\repos\\CoreFuels\\CoreFuels\\wwwroot\\Images\\9.png",
+      "SourceId": "CoreFuels",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\Alex\\source\\repos\\CoreFuels\\CoreFuels\\wwwroot\\",
+      "BasePath": "_content/CoreFuels",
+      "RelativePath": "Images/9#[.{fingerprint}]?.png",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "Fingerprint": "p4t8bq7qj5",
+      "Integrity": "ecj3ju/bPqhGZnUnUOqT11BVlRPtPXGVPMIo9hfg2lE=",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\Images\\9.png"
     }
   ],
   "Endpoints": [
@@ -4882,6 +4924,43 @@
       ]
     },
     {
+      "Route": "Images/8.png",
+      "AssetFile": "C:\\Users\\Alex\\source\\repos\\CoreFuels\\CoreFuels\\wwwroot\\Images\\8.png",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "1594515"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/png"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"qaoVRbGkRYZxB6LE2vsQ3eFahE3TMfDrjkghkMZsq5w=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Fri, 16 May 2025 16:43:03 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=3600, must-revalidate"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-qaoVRbGkRYZxB6LE2vsQ3eFahE3TMfDrjkghkMZsq5w="
+        }
+      ]
+    },
+    {
       "Route": "Images/8.uu50j4kt8i.jpg",
       "AssetFile": "C:\\Users\\Alex\\source\\repos\\CoreFuels\\CoreFuels\\wwwroot\\Images\\8.jpg",
       "Selectors": [],
@@ -4923,6 +5002,51 @@
         {
           "Name": "integrity",
           "Value": "sha256-piAchWjiqz5TDcF1HOv0WGaB/dZ3x1N605RyoEJzSec="
+        }
+      ]
+    },
+    {
+      "Route": "Images/8.xauxvpp6bc.png",
+      "AssetFile": "C:\\Users\\Alex\\source\\repos\\CoreFuels\\CoreFuels\\wwwroot\\Images\\8.png",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "1594515"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/png"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"qaoVRbGkRYZxB6LE2vsQ3eFahE3TMfDrjkghkMZsq5w=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Fri, 16 May 2025 16:43:03 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "xauxvpp6bc"
+        },
+        {
+          "Name": "label",
+          "Value": "Images/8.png"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-qaoVRbGkRYZxB6LE2vsQ3eFahE3TMfDrjkghkMZsq5w="
         }
       ]
     },
@@ -5005,6 +5129,88 @@
         {
           "Name": "integrity",
           "Value": "sha256-5E8bbWNx3WnKF3MYYKV7ZPsKa3JTD/1WACW1XaiHGaU="
+        }
+      ]
+    },
+    {
+      "Route": "Images/9.p4t8bq7qj5.png",
+      "AssetFile": "C:\\Users\\Alex\\source\\repos\\CoreFuels\\CoreFuels\\wwwroot\\Images\\9.png",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "1513888"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/png"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"ecj3ju/bPqhGZnUnUOqT11BVlRPtPXGVPMIo9hfg2lE=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Fri, 16 May 2025 16:40:14 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "p4t8bq7qj5"
+        },
+        {
+          "Name": "label",
+          "Value": "Images/9.png"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-ecj3ju/bPqhGZnUnUOqT11BVlRPtPXGVPMIo9hfg2lE="
+        }
+      ]
+    },
+    {
+      "Route": "Images/9.png",
+      "AssetFile": "C:\\Users\\Alex\\source\\repos\\CoreFuels\\CoreFuels\\wwwroot\\Images\\9.png",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "1513888"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/png"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"ecj3ju/bPqhGZnUnUOqT11BVlRPtPXGVPMIo9hfg2lE=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Fri, 16 May 2025 16:40:14 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=3600, must-revalidate"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-ecj3ju/bPqhGZnUnUOqT11BVlRPtPXGVPMIo9hfg2lE="
         }
       ]
     },

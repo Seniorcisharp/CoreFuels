@@ -75,3 +75,4 @@ C:\Users\Alex\source\repos\CoreFuels\CoreFuels\obj\Debug\net7.0\staticwebassets.
 C:\Users\Alex\source\repos\CoreFuels\CoreFuels\obj\Debug\net7.0\staticwebassets\msbuild.CoreFuels.Microsoft.AspNetCore.StaticWebAssetEndpoints.props
 C:\Users\Alex\source\repos\CoreFuels\CoreFuels\obj\Debug\net7.0\staticwebassets.upToDateCheck.txt
 C:\Users\Alex\source\repos\CoreFuels\CoreFuels\obj\Debug\net7.0\CoreFuels.csproj.Up2Date
+C:\Users\Alex\source\repos\CoreFuels\CoreFuels\obj\Debug\net7.0\CoreFuels.sourcelink.json

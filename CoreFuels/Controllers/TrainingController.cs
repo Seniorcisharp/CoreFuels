@@ -20,11 +20,11 @@ namespace CoreFuels.Controllers
         {
             return View();
         }
-        public IActionResult Liftingbarbell() 
+        public IActionResult Liftingbarbell()
         {
             return View();
         }
-        public  IActionResult ArmyBenchPress()
+        public IActionResult ArmyBenchPress()
         {
             return View();
         }
@@ -32,7 +32,7 @@ namespace CoreFuels.Controllers
         {
             return View();
         }
-        public IActionResult Stretching() 
+        public IActionResult Stretching()
         {
             return View();
         }
@@ -55,6 +55,10 @@ namespace CoreFuels.Controllers
         {
             return View();
         }
-
+        public IActionResult Rowing()
+        {
+            return View();  
+        }
+     
     }
 }

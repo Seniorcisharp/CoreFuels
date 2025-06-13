@@ -20,10 +20,6 @@ build_property._RazorSourceGeneratorDebug =
 build_property.EffectiveAnalysisLevelStyle = 7.0
 build_property.EnableCodeStyleSeverity = 
 
-[C:/Users/Alex/AppData/Roaming/SonarLint for Visual Studio/.global/csharp/SonarLint.xml]
-build_metadata.AdditionalFiles.TargetPath = 
-build_metadata.AdditionalFiles.CssScope = 
-
 [C:/Users/Alex/source/repos/CoreFuels/CoreFuels/Views/Authorization/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQXV0aG9yaXphdGlvblxJbmRleC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
@@ -44,44 +40,48 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9MYXlvdXQuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
+[C:/Users/Alex/source/repos/CoreFuels/CoreFuels/Views/Training/Aerobics.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVHJhaW5pbmdcQWVyb2JpY3MuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Alex/source/repos/CoreFuels/CoreFuels/Views/Training/ArmyBenchPress.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVHJhaW5pbmdcQXJteUJlbmNoUHJlc3MuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Alex/source/repos/CoreFuels/CoreFuels/Views/Training/BenchPress.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVHJhaW5pbmdcQmVuY2hQcmVzcy5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Alex/source/repos/CoreFuels/CoreFuels/Views/Training/Berpi.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVHJhaW5pbmdcQmVycGkuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
 [C:/Users/Alex/source/repos/CoreFuels/CoreFuels/Views/Training/CardioWorkout.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVHJhaW5pbmdcQ2FyZGlvV29ya291dC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Alex/source/repos/CoreFuels/CoreFuels/Views/Training/CatCow.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVHJhaW5pbmdcQ2F0Q293LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Alex/source/repos/CoreFuels/CoreFuels/Views/Training/Deadlift.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVHJhaW5pbmdcRGVhZGxpZnQuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
 [C:/Users/Alex/source/repos/CoreFuels/CoreFuels/Views/Training/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVHJhaW5pbmdcSW5kZXguY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Alex/source/repos/CoreFuels/CoreFuels/Views/Training/Materials/Aerobics.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVHJhaW5pbmdcTWF0ZXJpYWxzXEFlcm9iaWNzLmNzaHRtbA==
+[C:/Users/Alex/source/repos/CoreFuels/CoreFuels/Views/Training/Liftingbarbell.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVHJhaW5pbmdcTGlmdGluZ2JhcmJlbGwuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Alex/source/repos/CoreFuels/CoreFuels/Views/Training/Materials/ArmyBenchPress.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVHJhaW5pbmdcTWF0ZXJpYWxzXEFybXlCZW5jaFByZXNzLmNzaHRtbA==
+[C:/Users/Alex/source/repos/CoreFuels/CoreFuels/Views/Training/Lunges.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVHJhaW5pbmdcTHVuZ2VzLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Alex/source/repos/CoreFuels/CoreFuels/Views/Training/Materials/BenchPress.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVHJhaW5pbmdcTWF0ZXJpYWxzXEJlbmNoUHJlc3MuY3NodG1s
-build_metadata.AdditionalFiles.CssScope = 
-
-[C:/Users/Alex/source/repos/CoreFuels/CoreFuels/Views/Training/Materials/Berpi.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVHJhaW5pbmdcTWF0ZXJpYWxzXEJlcnBpLmNzaHRtbA==
-build_metadata.AdditionalFiles.CssScope = 
-
-[C:/Users/Alex/source/repos/CoreFuels/CoreFuels/Views/Training/Materials/CatCow.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVHJhaW5pbmdcTWF0ZXJpYWxzXENhdENvdy5jc2h0bWw=
-build_metadata.AdditionalFiles.CssScope = 
-
-[C:/Users/Alex/source/repos/CoreFuels/CoreFuels/Views/Training/Materials/Deadlift.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVHJhaW5pbmdcTWF0ZXJpYWxzXERlYWRsaWZ0LmNzaHRtbA==
-build_metadata.AdditionalFiles.CssScope = 
-
-[C:/Users/Alex/source/repos/CoreFuels/CoreFuels/Views/Training/Materials/Liftingbarbell.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVHJhaW5pbmdcTWF0ZXJpYWxzXExpZnRpbmdiYXJiZWxsLmNzaHRtbA==
-build_metadata.AdditionalFiles.CssScope = 
-
-[C:/Users/Alex/source/repos/CoreFuels/CoreFuels/Views/Training/Materials/Lunges.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVHJhaW5pbmdcTWF0ZXJpYWxzXEx1bmdlcy5jc2h0bWw=
+[C:/Users/Alex/source/repos/CoreFuels/CoreFuels/Views/Training/Rowing.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVHJhaW5pbmdcUm93aW5nLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
 [C:/Users/Alex/source/repos/CoreFuels/CoreFuels/Views/Training/Strength.cshtml]

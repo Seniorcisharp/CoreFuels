@@ -1,22 +1,21 @@
 ﻿
-
 @{
     ViewBag.Title = "Home Page";
 }
 
-<div class="container">
+<div >
     <div class ="main">
         <div class="jersey">
             @if (!User.Identity.IsAuthenticated)
             {
                 <a href="@Url.Action("Index", "Authorization")">
-                    <img src="/Images/8.jpg" alt="jersey Image">
+                    <img src="/Images/8.png" alt="jersey Image">
                 </a>
             }
             else
             {
                 <a href="@Url.Action("Index", "Training")">
-                    <img src="/Images/8.jpg" alt="jersey Image">
+                    <img src="/Images/8.png" alt="jersey Image">
                 </a>
             }
         </div>
@@ -24,13 +23,13 @@
             @if (!User.Identity.IsAuthenticated)
             {
                 <a href="@Url.Action("Index", "Authorization")">
-                    <img src="/Images/9.jpg" alt="fruit Image">
+                    <img src="/Images/9.png" alt="fruit Image">
                 </a>
             }
             else
             {
                 <a href="@Url.Action("Index", "Eat")">
-                    <img src="/Images/9.jpg" alt="fruit Image">
+                    <img src="/Images/9.png" alt="fruit Image">
                 </a>
             }
         </div>

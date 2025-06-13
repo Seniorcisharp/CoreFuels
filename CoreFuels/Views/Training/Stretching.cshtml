@@ -214,16 +214,16 @@
                     </div>
 
                     <div class="workout-option animate__animated" id="strength">
-                        <input type="radio" class="btn-check" name="workout" id="strength-input" value="Берпи" autocomplete="off">
+                        <input type="radio" class="btn-check" name="workout" id="strength-input" value="Выпад с Наклоном" autocomplete="off">
                         <label for="strength-input">
-                            <i class="fas fa-dumbbell"></i> Берпи
+                            <i class="fas fa-dumbbell"></i> Выпад с Наклоном 
                         </label>
                     </div>
 
                     <div class="workout-option animate__animated" id="stretching">
-                        <input type="radio" class="btn-check" name="workout" id="stretching-input" value="Выпад с Наклоном" autocomplete="off">
+                        <input type="radio" class="btn-check" name="workout" id="stretching-input" value="Бабочка" autocomplete="off">
                         <label for="stretching-input">
-                            <i class="fas fa-spa"></i> Выпад с Наклоном 
+                            <i class="fas fa-spa"></i> Бабочка
                         </label>
                     </div>
                 </div>
@@ -337,13 +337,13 @@
                     setTimeout(() => {
                         switch (selected.value) {
                             case 'Кошка-Корова':
-                                window.location.href = '/Training/Materials/CatCow';
+                                window.location.href = '/Training/CatCow';
                                 break;
-                            case 'Берпи':
-                                window.location.href = '/Training/Materials/';
+                            case 'Выпад с Наклоном':
+                                window.location.href = '/Training/Liftingbarbell';
                                 break;
-                            case 'Выпад с Наклоном жим':
-                                window.location.href = '/Training/Materials/Liftingbarbell';
+                            case 'Бабочка':
+                                window.location.href = '/Training/Lunges';
                                 break;
                         }
                     }, 500);

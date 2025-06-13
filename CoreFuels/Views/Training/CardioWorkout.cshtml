@@ -207,9 +207,9 @@
             <form id="workoutForm">
                 <div class="workout-options">
                     <div class="workout-option animate__animated" id="cardio">
-                        <input type="radio" class="btn-check" name="workout" id="cardio-input" value="Кардио" autocomplete="off">
+                        <input type="radio" class="btn-check" name="workout" id="cardio-input" value="Гребля" autocomplete="off">
                         <label for="cardio-input">
-                            <i class="fas fa-running"></i> Беговая Дорожка
+                            <i class="fas fa-running"></i> Гребля
                         </label>
                     </div>
 
@@ -336,14 +336,14 @@
 
                     setTimeout(() => {
                         switch (selected.value) {
-                            case 'Кардио':
-                                window.location.href = '/Training/Materials/CardioWorkout';
+                            case 'Гребля':
+                                window.location.href = '/Training/Rowing';
                                 break;
                             case 'Аэробика':
-                                window.location.href = '/Training/Materials/Aerobics';
+                                window.location.href = '/Training/Aerobics';
                                 break;
                             case 'Берпи':
-                                window.location.href = '/Training/Materials/Berpi';
+                                window.location.href = '/Training/Berpi';
                                 break;
                         }
                     }, 500);

@@ -7,7 +7,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Логирование</title>
     <style>
-        /* Базовые стили без анимаций */
         * {
             margin: 0;
             padding: 0;
@@ -16,63 +15,116 @@
         }
 
         body {
-            background: #121420;
+            background: #1a1a2e;
             display: flex;
             justify-content: center;
             align-items: center;
             min-height: 100vh;
             overflow: hidden;
+            position: relative;
         }
 
         .container {
-            background-color: #2B2D42;
-            padding: 40px;
-            border-radius: 20px;
-            width: 400px;
-            color: #EDF2F4;
-            text-align: center;
+            background: rgba(30, 30, 30, 0.95);
+            padding: 2.5rem;
+            border-radius: 0.5rem;
+            width: 380px;
+            border: 1px solid #333;
+            z-index: 10;
+            position: relative;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(5px);
+            transform: translateY(30px) scale(0.95);
             opacity: 0;
-            transform: translateY(20px);
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
         }
 
         .title {
-            font-size: 2rem;
-            color: #FF6B6B;
-            margin-bottom: 30px;
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 2rem;
+            text-align: center;
+            color: #4a80f0;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            background: linear-gradient(90deg, #4a80f0, #6a9fff);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
             position: relative;
             opacity: 0;
             transform: translateY(-10px);
         }
 
+            .title::after {
+                content: "";
+                position: absolute;
+                bottom: -10px;
+                left: 50%;
+                transform: translateX(-50%);
+                width: 60px;
+                height: 3px;
+                background: linear-gradient(90deg, #4a80f0, #6a9fff);
+                border-radius: 3px;
+            }
+
         .textbox {
             width: 100%;
-            padding: 14px 20px;
-            margin: 15px 0;
-            border: 1px solid #4A4E69;
-            border-radius: 8px;
+            padding: 0.9rem 1rem 0.9rem 2.5rem;
+            background: #252525;
+            border: 1px solid #333;
+            border-radius: 0.3rem;
+            color: #fff;
+            font-size: 0.95rem;
+            transition: all 0.3s ease;
+            margin-bottom: 1.5rem;
+            opacity: 0;
+            transform: translateX(-10px);
+        }
+
+            .textbox:focus {
+                outline: none;
+                border-color: #4a80f0;
+                box-shadow: 0 0 0 2px rgba(74, 128, 240, 0.3);
+            }
+
+        .submit-btn {
+            width: 100%;
+            padding: 1rem;
+            background: linear-gradient(90deg, #4a80f0, #6a9fff);
+            color: white;
+            border: none;
+            border-radius: 0.3rem;
             font-size: 1rem;
-            background: #1A1C2C;
-            color: #EDF2F4;
+            font-weight: 600;
+            cursor: pointer;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
             opacity: 0;
             transform: translateY(10px);
         }
 
-        .submit-btn {
-            width: 100%;
-            padding: 14px;
-            background: #FF6B6B;
-            color: white;
-            font-size: 1.1rem;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            margin-top: 20px;
-            opacity: 0;
-            transform: translateY(10px);
-            position: relative;
-            overflow: hidden;
-        }
+            .submit-btn::after {
+                content: "→";
+                position: absolute;
+                right: 1.5rem;
+                top: 50%;
+                transform: translateY(-50%);
+                opacity: 0;
+                transition: all 0.3s ease;
+            }
+
+            .submit-btn:hover {
+                background: linear-gradient(90deg, #3a70e0, #5a8fef);
+                box-shadow: 0 5px 15px rgba(74, 128, 240, 0.4);
+            }
+
+                .submit-btn:hover::after {
+                    opacity: 1;
+                    right: 1rem;
+                }
 
         .alert {
             padding: 12px;
@@ -93,17 +145,19 @@
             color: white;
         }
 
-        .auth-status {
-            margin: 20px 0;
-            padding: 15px;
-            border-radius: 8px;
-            background: rgba(255, 255, 255, 0.1);
+        .fuel-bg-element {
+            position: absolute;
+            z-index: 1;
             opacity: 0;
-            transform: translateY(10px);
+            font-size: 1.5rem;
+            filter: drop-shadow(0 0 5px rgba(74, 128, 240, 0.5));
         }
     </style>
 </head>
 <body>
+    <!-- Анимированные элементы фона -->
+    <div id="fuel-elements"></div>
+
     <div class="container" id="container">
         @if (TempData["SuccessMessage"] != null)
         {
@@ -119,7 +173,6 @@
             </div>
         }
 
-
         <div class="title" id="title">Логирование</div>
         <form method="post" id="loginForm">
             <input type="text" class="textbox" name="login" placeholder="Введите логин" required id="loginInput">
@@ -129,214 +182,157 @@
     </div>
 
     <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            // Анимация появления контейнера
-            const container = document.getElementById('container');
-            animateElement(container, {
-                opacity: 1,
-                y: 0
-            }, 600, 100, 'easeOutQuad');
+        document.addEventListener('DOMContentLoaded', () => {
+            // Создание элементов фона
+            function createFuelElements() {
+                const container = document.getElementById('fuel-elements');
+                const icons = ['⛽', '🔥', '⚡', '🚗', '🏎️', '🏁', '🛢️', '🔋', '🚀', '🛞', '🔧', '🛠️', '⏱️', '📈', '💨'];
 
-            // Анимация заголовка
-            const title = document.getElementById('title');
-            animateElement(title, {
-                opacity: 1,
-                y: 0
-            }, 500, 400, 'easeOutQuad');
+                for (let i = 0; i < 20; i++) {
+                    const element = document.createElement('div');
+                    element.className = 'fuel-bg-element';
+                    element.textContent = icons[Math.floor(Math.random() * icons.length)];
 
-            // Анимация полей ввода
-            const inputs = document.querySelectorAll('.textbox');
-            inputs.forEach((input, index) => {
-                animateElement(input, {
-                    opacity: 1,
-                    y: 0
-                }, 400, 600 + (index * 150), 'easeOutQuad', () => {
-                    // Эффекты при фокусе
-                    input.addEventListener('focus', () => {
-                        animateElement(input, {
-                            borderColor: '#FF6B6B',
-                            boxShadow: '0 0 0 3px rgba(255, 107, 107, 0.3)'
-                        }, 200);
-                    });
+                    const size = Math.random() * 50 + 30;
+                    const posX = Math.random() * window.innerWidth;
+                    const posY = Math.random() * window.innerHeight;
+                    const opacity = Math.random() * 0.4 + 0.1;
+                    const delay = Math.random() * 3;
+                    const duration = Math.random() * 15 + 10;
 
-                    input.addEventListener('blur', () => {
-                        animateElement(input, {
-                            borderColor: '#4A4E69',
-                            boxShadow: 'none'
-                        }, 200);
-                    });
-                });
-            });
+                    element.style.width = `${size}px`;
+                    element.style.height = `${size}px`;
+                    element.style.left = `${posX}px`;
+                    element.style.top = `${posY}px`;
+                    element.style.fontSize = `${size * 0.7}px`;
+                    element.style.transition = `all ${duration}s linear`;
 
-            // Анимация кнопки
-            const submitBtn = document.getElementById('submitBtn');
-            animateElement(submitBtn, {
-                opacity: 1,
-                y: 0
-            }, 500, 900, 'easeOutQuad', () => {
-                // Эффект при наведении
-                submitBtn.addEventListener('mouseenter', () => {
-                    animateElement(submitBtn, {
-                        y: -2,
-                        background: '#FF4B4B'
-                    }, 200);
-                });
+                    setTimeout(() => {
+                        element.style.opacity = opacity;
+                        animateFuelElement(element, duration);
+                    }, delay * 1000);
 
-                submitBtn.addEventListener('mouseleave', () => {
-                    animateElement(submitBtn, {
-                        y: 0,
-                        background: '#FF6B6B'
-                    }, 200);
-                });
-
-                // Эффект блеска при наведении
-                submitBtn.addEventListener('mouseenter', createShineEffect);
-            });
-
-            // Анимация статуса авторизации
-            const authStatus = document.getElementById('authStatus');
-            if (authStatus) {
-                animateElement(authStatus, {
-                    opacity: 1,
-                    y: 0
-                }, 500, 1000, 'easeOutQuad');
-
-                const loginLink = document.getElementById('loginLink');
-                if (loginLink) {
-                    loginLink.addEventListener('mouseenter', () => {
-                        animateElement(loginLink, {
-                            color: '#FF4B4B'
-                        }, 200);
-                    });
-
-                    loginLink.addEventListener('mouseleave', () => {
-                        animateElement(loginLink, {
-                            color: '#FF6B6B'
-                        }, 200);
-                    });
-                }
-
-                const logoutBtn = document.getElementById('logoutBtn');
-                if (logoutBtn) {
-                    logoutBtn.addEventListener('mouseenter', () => {
-                        animateElement(logoutBtn, {
-                            background: '#FF4B4B'
-                        }, 200);
-                    });
-
-                    logoutBtn.addEventListener('mouseleave', () => {
-                        animateElement(logoutBtn, {
-                            background: '#FF6B6B'
-                        }, 200);
-                    });
-
-                    logoutBtn.addEventListener('mouseenter', createShineEffect);
+                    container.appendChild(element);
                 }
             }
+
+            function animateFuelElement(element, duration) {
+                const xMove = (Math.random() - 0.5) * 300;
+                const yMove = (Math.random() - 0.5) * 300;
+                const rotate = (Math.random() - 0.5) * 360;
+
+                element.style.transform = `translate(${xMove}px, ${yMove}px) rotate(${rotate}deg)`;
+
+                setTimeout(() => {
+                    animateFuelElement(element, duration);
+                }, duration * 1000);
+            }
+
+            // Инициализация элементов фона
+            createFuelElements();
+
+            // Анимация появления контейнера
+            const container = document.getElementById('container');
+            setTimeout(() => {
+                container.style.transition = 'all 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275)';
+                container.style.opacity = '1';
+                container.style.transform = 'translateY(0) scale(1)';
+
+                // Анимация заголовка
+                const title = document.getElementById('title');
+                setTimeout(() => {
+                    title.style.transition = 'opacity 0.5s ease-out, transform 0.5s ease-out';
+                    title.style.opacity = '1';
+                    title.style.transform = 'translateY(0)';
+
+                    // Анимация полей ввода
+                    const inputs = document.querySelectorAll('.textbox');
+                    inputs.forEach((input, index) => {
+                        setTimeout(() => {
+                            input.style.transition = 'all 0.4s ease-out';
+                            input.style.opacity = '1';
+                            input.style.transform = 'translateX(0)';
+
+                            // Эффекты при фокусе
+                            input.addEventListener('mouseenter', () => {
+                                input.style.background = '#2a2a2a';
+                                input.style.borderColor = '#4a80f0';
+                            });
+
+                            input.addEventListener('mouseleave', () => {
+                                if (document.activeElement !== input) {
+                                    input.style.background = '#252525';
+                                    input.style.borderColor = '#333';
+                                }
+                            });
+                        }, index * 200);
+                    });
+
+                    // Анимация кнопки
+                    const submitBtn = document.getElementById('submitBtn');
+                    setTimeout(() => {
+                        submitBtn.style.transition = 'all 0.5s ease-out';
+                        submitBtn.style.opacity = '1';
+                        submitBtn.style.transform = 'translateY(0)';
+
+                        // Пульсация кнопки
+                        setInterval(() => {
+                            submitBtn.style.transform = 'scale(1.02)';
+                            setTimeout(() => {
+                                submitBtn.style.transform = 'scale(1)';
+                            }, 1000);
+                        }, 2000);
+
+                        // Эффект блеска при наведении
+                        submitBtn.addEventListener('mouseenter', function() {
+                            const shine = document.createElement('div');
+                            shine.style.position = 'absolute';
+                            shine.style.top = '0';
+                            shine.style.left = '-100%';
+                            shine.style.width = '100%';
+                            shine.style.height = '100%';
+                            shine.style.background = 'linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent)';
+                            shine.style.transform = 'skewX(-25deg)';
+
+                            this.appendChild(shine);
+
+                            setTimeout(() => {
+                                shine.style.transition = 'left 0.6s ease-out';
+                                shine.style.left = '100%';
+                            }, 10);
+
+                            shine.addEventListener('transitionend', () => {
+                                shine.remove();
+                            });
+                        });
+                    }, 600);
+                }, 300);
+            }, 100);
 
             // Анимация алертов
             const alerts = document.querySelectorAll('.alert');
             alerts.forEach(alert => {
-                animateElement(alert, {
-                    opacity: 1,
-                    scale: 1
-                }, 400, 1100, 'easeOutBack');
+                setTimeout(() => {
+                    alert.style.transition = 'all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275)';
+                    alert.style.opacity = '1';
+                    alert.style.transform = 'scale(1)';
+                }, 900);
             });
 
-            // Функция для создания эффекта блеска
-            function createShineEffect() {
-                const shine = document.createElement('div');
-                shine.style.position = 'absolute';
-                shine.style.top = '0';
-                shine.style.left = '-100%';
-                shine.style.width = '100%';
-                shine.style.height = '100%';
-                shine.style.background = 'linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent)';
-                shine.style.transform = 'skewX(-25deg)';
+            // Анимация отправки формы
+            const form = document.getElementById('loginForm');
+            form.addEventListener('submit', function(e) {
+                e.preventDefault();
 
-                this.appendChild(shine);
+                const submitBtn = document.getElementById('submitBtn');
+                submitBtn.style.background = 'linear-gradient(90deg, #3a70e0, #5a8fef)';
+                submitBtn.textContent = 'ВХОД...';
+                submitBtn.style.paddingRight = '3rem';
 
-                animateElement(shine, {
-                    left: '100%'
-                }, 600, 0, 'linear', () => {
-                    shine.remove();
-                });
-            }
-
-            // Универсальная функция анимации
-            function animateElement(element, properties, duration, delay = 0, easing = 'linear', callback = null) {
                 setTimeout(() => {
-                    const startTime = performance.now();
-                    const initialValues = {};
-
-                    // Получаем начальные значения
-                    for (const prop in properties) {
-                        if (prop === 'scale') {
-                            initialValues[prop] = parseFloat(element.style.transform?.replace(/[^0-9.]/g, '') || 1);
-                        } else if (prop === 'y' || prop === 'x') {
-                            initialValues[prop] = parseFloat(element.style.transform?.match(/translate[XY]\(([^)]+)/)?.[1] || 0);
-                        } else {
-                            initialValues[prop] = parseFloat(window.getComputedStyle(element)[prop]) || 0;
-                        }
-                    }
-
-                    function update(time) {
-                        const elapsed = time - startTime;
-                        const progress = Math.min(elapsed / duration, 1);
-                        const easedProgress = applyEasing(progress, easing);
-
-                        for (const prop in properties) {
-                            const startValue = initialValues[prop];
-                            const endValue = typeof properties[prop] === 'string' ?
-                                properties[prop] :
-                                parseFloat(properties[prop]);
-                            const currentValue = startValue + (endValue - startValue) * easedProgress;
-
-                            if (prop === 'scale') {
-                                element.style.transform = `scale(${currentValue})`;
-                            } else if (prop === 'y') {
-                                const x = initialValues['x'] || 0;
-                                element.style.transform = `translate(${x}px, ${currentValue}px)`;
-                            } else if (prop === 'x') {
-                                const y = initialValues['y'] || 0;
-                                element.style.transform = `translate(${currentValue}px, ${y}px)`;
-                            } else if (prop === 'boxShadow' || prop === 'background') {
-                                element.style[prop] = properties[prop];
-                            } else {
-                                element.style[prop] = typeof properties[prop] === 'string' ?
-                                    properties[prop] :
-                                    `${currentValue}${prop === 'opacity' ? '' : 'px'}`;
-                            }
-                        }
-
-                        if (progress < 1) {
-                            requestAnimationFrame(update);
-                        } else if (callback) {
-                            callback();
-                        }
-                    }
-
-                    requestAnimationFrame(update);
-                }, delay);
-            }
-
-            // Функции для плавности анимации
-            function applyEasing(progress, easing) {
-                switch (easing) {
-                    case 'easeInQuad':
-                        return progress * progress;
-                    case 'easeOutQuad':
-                        return progress * (2 - progress);
-                    case 'easeInOutQuad':
-                        return progress < 0.5 ? 2 * progress * progress : -1 + (4 - 2 * progress) * progress;
-                    case 'easeOutBack':
-                        const c1 = 1.70158;
-                        const c3 = c1 + 1;
-                        return 1 + c3 * Math.pow(progress - 1, 3) + c1 * Math.pow(progress - 1, 2);
-                    default:
-                        return progress;
-                }
-            }
+                    form.submit();
+                }, 1500);
+            });
         });
     </script>
 </body>

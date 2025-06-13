@@ -11,14 +11,16 @@
             color: #ffffff;
             font-family: 'Segoe UI', system-ui, sans-serif;
             min-height: 100vh;
-            overflow-x: hidden;
             margin: 0;
-            padding: 0;
+            padding: 2rem;
+            overflow-x: hidden;
+            position: relative;
         }
 
         .container {
             max-width: 1200px;
-            padding: 2rem;
+            position: relative;
+            z-index: 1;
         }
 
         h1 {
@@ -30,39 +32,18 @@
             color: transparent;
             margin-bottom: 2rem;
             text-align: center;
-            letter-spacing: -0.5px;
-            text-shadow: 0 2px 10px rgba(255, 106, 149, 0.3);
         }
 
         .meal-item {
             cursor: pointer;
             border: none;
             background: rgba(255, 255, 255, 0.05);
-            backdrop-filter: blur(10px);
             border-radius: 16px;
             overflow: hidden;
             box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
-            position: relative;
-            z-index: 1;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            transform: translateY(20px);
+            opacity: 0;
         }
-
-            .meal-item::before {
-                content: '';
-                position: absolute;
-                top: 0;
-                left: 0;
-                right: 0;
-                bottom: 0;
-                border-radius: 16px;
-                padding: 2px;
-                background: linear-gradient(135deg, rgba(255, 154, 139, 0.3), rgba(255, 107, 149, 0.3), rgba(255, 142, 83, 0.3));
-                -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-                -webkit-mask-composite: xor;
-                mask-composite: exclude;
-                pointer-events: none;
-                z-index: -1;
-            }
 
         .card-img-top {
             height: 180px;
@@ -90,53 +71,43 @@
         }
 
         .product-circle {
-            width: 36px;
+            width: auto;
             height: 36px;
             background: linear-gradient(135deg, #ff9a8b, #ff6b95, #ff8e53);
             color: #0f0f13;
             display: flex;
             align-items: center;
             justify-content: center;
-            border-radius: 50%;
-            font-size: 1rem;
+            border-radius: 18px;
+            font-size: 0.9rem;
             font-weight: 700;
             border: none;
             box-shadow: 0 4px 12px rgba(255, 107, 149, 0.3);
-            position: relative;
-            overflow: hidden;
-            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            padding: 0 12px;
         }
 
         .modal-content {
             background: rgba(26, 26, 46, 0.98);
-            backdrop-filter: blur(20px);
             border: 1px solid rgba(255, 255, 255, 0.1);
             border-radius: 16px;
-            box-shadow: 0 16px 40px rgba(0, 0, 0, 0.3);
-            transition: transform 0.3s ease, opacity 0.3s ease;
+            max-height: 80vh;
+            overflow-y: auto;
         }
 
         .modal-header {
             border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-            padding: 1.5rem;
+            position: sticky;
+            top: 0;
+            background: rgba(26, 26, 46, 0.9);
+            z-index: 1;
         }
 
         .modal-title {
             font-weight: 700;
-            font-size: 1.5rem;
             background: linear-gradient(90deg, #ff9a8b, #ff6b95, #ff8e53);
             -webkit-background-clip: text;
             background-clip: text;
             color: transparent;
-        }
-
-        .modal-body {
-            padding: 1.5rem;
-        }
-
-        .btn-close {
-            filter: invert(1);
-            opacity: 0.8;
         }
 
         .btn-outline-success {
@@ -146,77 +117,119 @@
             padding: 0.5rem 1.25rem;
             font-weight: 600;
             background: transparent;
-            position: relative;
-            overflow: hidden;
             margin: 0.25rem;
-            transition: transform 0.2s ease, background 0.2s ease, border-color 0.2s ease;
+            opacity: 0;
+            transform: translateY(10px);
+            transition: all 0.2s ease;
         }
 
             .btn-outline-success:hover {
-                color: #0f0f13;
+                background: rgba(255, 107, 149, 0.2);
             }
 
-        .food-particle {
-            position: fixed;
-            font-size: 1.2rem;
-            z-index: -1;
-            pointer-events: none;
+        .food-bg {
+            position: absolute;
+            font-size: 1.5rem;
             opacity: 0;
+            z-index: 0;
+            pointer-events: none;
         }
 
-        .glow {
-            position: fixed;
-            width: 150px;
-            height: 150px;
-            background: radial-gradient(circle, rgba(255, 107, 149, 0.2) 0%, transparent 70%);
-            pointer-events: none;
-            z-index: -1;
-            border-radius: 50%;
-            filter: blur(20px);
-            transform: translate(-50%, -50%);
+        .search-container {
+            padding: 0 1.5rem 1rem;
+            position: sticky;
+            top: 70px;
+            background: rgba(26, 26, 46, 0.9);
+            z-index: 1;
+        }
+
+        .search-input {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: white;
+            border-radius: 25px;
+            padding: 8px 15px;
+            width: 100%;
+        }
+
+            .search-input:focus {
+                outline: none;
+                box-shadow: 0 0 0 2px rgba(255, 107, 149, 0.3);
+            }
+
+        .nutrition-summary {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+            padding: 1rem;
+            margin-top: 1rem;
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+        }
+
+        .nutrition-item {
+            text-align: center;
+            padding: 0.5rem;
+            flex: 1;
+            min-width: 80px;
+        }
+
+        .nutrition-value {
+            font-weight: 700;
+            font-size: 1.1rem;
+            color: #ff6b95;
+        }
+
+        .nutrition-label {
+            font-size: 0.8rem;
+            opacity: 0.8;
+            color: white;
         }
     </style>
 </head>
-<body class="d-flex flex-column align-items-center py-4">
-    <div class="glow" id="glowEffect"></div>
+<body>
+    <div id="foodBackground"></div>
 
-    <!-- Ваш существующий HTML остается без изменений -->
     <div class="container text-center">
         <h1 class="mb-4">Выберите приём пищи</h1>
         <div class="row row-cols-2 row-cols-md-4 g-4">
-            <div class="col" onclick="openModal(this, 'Завтрак')">
+            <div class="col" onclick="openModal(this, 'breakfast')">
                 <div class="card meal-item">
-                    <img src="/Images/11.jpg" class="card-img-top" alt="Завтрак">
+                    <img src="https://images.unsplash.com/photo-1550583724-b2692b85b150" class="card-img-top" alt="Завтрак">
                     <div class="card-body">
                         <p class="card-text">Завтрак</p>
-                        <div class="selected-products"></div>
+                        <div class="selected-products" id="breakfast-products"></div>
+                        <div class="nutrition-summary" id="breakfast-nutrition"></div>
                     </div>
                 </div>
             </div>
-            <div class="col" onclick="openModal(this, 'Обед')">
+            <div class="col" onclick="openModal(this, 'lunch')">
                 <div class="card meal-item">
-                    <img src="/Images/12.jpg" class="card-img-top" alt="Обед">
+                    <img src="https://images.unsplash.com/photo-1547592180-85f173990554" class="card-img-top" alt="Обед">
                     <div class="card-body">
                         <p class="card-text">Обед</p>
-                        <div class="selected-products"></div>
+                        <div class="selected-products" id="lunch-products"></div>
+                        <div class="nutrition-summary" id="lunch-nutrition"></div>
                     </div>
                 </div>
             </div>
-            <div class="col" onclick="openModal(this, 'Ужин')">
+            <div class="col" onclick="openModal(this, 'dinner')">
                 <div class="card meal-item">
-                    <img src="/Images/13.jpg" class="card-img-top" alt="Ужин">
+                    <img src="https://images.unsplash.com/photo-1567620905732-2d1ec7ab7445" class="card-img-top" alt="Ужин">
                     <div class="card-body">
                         <p class="card-text">Ужин</p>
-                        <div class="selected-products"></div>
+                        <div class="selected-products" id="dinner-products"></div>
+                        <div class="nutrition-summary" id="dinner-nutrition"></div>
                     </div>
                 </div>
             </div>
-            <div class="col" onclick="openModal(this, 'Ланч')">
+            <div class="col" onclick="openModal(this, 'snack')">
                 <div class="card meal-item">
-                    <img src="/Images/14.jpg" class="card-img-top" alt="Ланч">
+                    <img src="https://images.unsplash.com/photo-1512621776951-a57141f2eefd" class="card-img-top" alt="Ланч">
                     <div class="card-body">
                         <p class="card-text">Ланч</p>
-                        <div class="selected-products"></div>
+                        <div class="selected-products" id="snack-products"></div>
+                        <div class="nutrition-summary" id="snack-nutrition"></div>
                     </div>
                 </div>
             </div>
@@ -224,19 +237,17 @@
     </div>
 
     <div class="modal fade" id="mealModal" tabindex="-1" aria-hidden="true">
-        <div class="modal-dialog">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="mealTitle">Выберите продукт</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Закрыть"></button>
                 </div>
+                <div class="search-container">
+                    <input type="text" class="search-input" placeholder="Поиск продуктов..." id="productSearch">
+                </div>
                 <div class="modal-body text-center" id="productList">
-                    @foreach (var product in Model)
-                    {
-                        <button class="btn btn-outline-success m-1" onclick="addProduct('@product.Name')">
-                            @product.Name
-                        </button>
-                    }
+                    <!-- Продукты будут добавлены через JavaScript -->
                 </div>
             </div>
         </div>
@@ -245,600 +256,380 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script>
         // Глобальные переменные
-        let selectedMealItem = null;
-        const modal = new bootstrap.Modal(document.getElementById('mealModal'));
-        const foodIcons = ['🍎', '🍌', '🍊', '🍐', '🍇', '🍓', '🥕', '🥦', '🍅', '🥒', '🥬', '🍞', '🧀', '🥛', '🥚', '🍗', '🐟', '🍚', '🍝', '🥔'];
-        let animationFrameId;
-        let floatingFood = [];
+        let products = []; // Здесь будут храниться продукты с сервера
+        let selectedMealType = ''; // Текущий выбранный прием пищи
+        let selectedMealItem = null; // DOM-элемент выбранного приема пищи
 
-        // Инициализация при загрузке
+        // Инициализация при загрузке страницы
         document.addEventListener('DOMContentLoaded', function() {
-            setupGlowEffect();
-            createFloatingFood(15);
-            setupCardHoverEffects();
-            setupButtonHoverEffects();
-            animatePageLoad();
+            initPageAnimations();
+            loadProducts();
+            loadUserMeals();
         });
 
-        // Анимация загрузки страницы
-        function animatePageLoad() {
-            const title = document.querySelector('h1');
-            const cards = document.querySelectorAll('.meal-item');
+        // Загрузка продуктов с сервера
+        async function loadProducts() {
+            try {
+                const response = await fetch('/Eat/GetProducts');
+                if (response.ok) {
+                    products = await response.json();
+                    setupModalProducts();
+                } else {
+                    console.error('Ошибка загрузки продуктов');
+                    // Если не удалось загрузить, используем fallback данные
+                    products = getFallbackProducts();
+                    setupModalProducts();
+                }
+            } catch (error) {
+                console.error('Ошибка:', error);
+                products = getFallbackProducts();
+                setupModalProducts();
+            }
+        }
 
-            // Начальное состояние
-            title.style.opacity = '0';
-            title.style.transform = 'translateY(-20px)';
+        // Fallback данные на случай если сервер не отвечает
+        function getFallbackProducts() {
+            return [
+                { productId: 1, name: "Яблоко", calories: "52", proteins: 0.3, fats: 0.2, carbohydrates: 14.0 },
+                { productId: 2, name: "Банан", calories: "96", proteins: 1.3, fats: 0.3, carbohydrates: 27.0 },
+                { productId: 3, name: "Куриная грудка", calories: "165", proteins: 31.0, fats: 3.6, carbohydrates: 0.0 },
+                { productId: 4, name: "Рис", calories: "130", proteins: 2.7, fats: 0.3, carbohydrates: 28.0 },
+                { productId: 5, name: "Яйцо", calories: "68", proteins: 5.5, fats: 4.8, carbohydrates: 0.6 },
+                { productId: 6, name: "Молоко", calories: "42", proteins: 3.4, fats: 1.0, carbohydrates: 5.0 },
+                { productId: 7, name: "Хлеб", calories: "265", proteins: 9.0, fats: 3.2, carbohydrates: 49.0 },
+                { productId: 8, name: "Сыр", calories: "402", proteins: 25.0, fats: 33.0, carbohydrates: 1.3 },
+                { productId: 9, name: "Помидор", calories: "18", proteins: 0.9, fats: 0.2, carbohydrates: 3.9 },
+                { productId: 10, name: "Картофель", calories: "77", proteins: 2.0, fats: 0.1, carbohydrates: 17.0 },
+                { productId: 11, name: "Морковь", calories: "41", proteins: 0.9, fats: 0.2, carbohydrates: 10.0 },
+                { productId: 12, name: "Апельсин", calories: "47", proteins: 0.9, fats: 0.1, carbohydrates: 12.0 },
+                { productId: 13, name: "Говядина", calories: "250", proteins: 26.0, fats: 15.0, carbohydrates: 0.0 },
+                { productId: 14, name: "Лосось", calories: "208", proteins: 20.0, fats: 13.0, carbohydrates: 0.0 },
+                { productId: 15, name: "Йогурт", calories: "59", proteins: 10.0, fats: 0.4, carbohydrates: 3.6 },
+                { productId: 16, name: "Ананас", calories: "50", proteins: 0.5, fats: 0.1, carbohydrates: 13.0 },
+                { productId: 17, name: "Клубника", calories: "32", proteins: 0.7, fats: 0.3, carbohydrates: 7.7 },
+                { productId: 18, name: "Паста", calories: "131", proteins: 5.0, fats: 1.1, carbohydrates: 25.0 },
+                { productId: 19, name: "Масло", calories: "717", proteins: 0.9, fats: 81.0, carbohydrates: 0.1 },
+                { productId: 20, name: "Салат", calories: "15", proteins: 1.4, fats: 0.2, carbohydrates: 2.9 },
+                { productId: 21, name: "Огурец", calories: "16", proteins: 0.6, fats: 0.1, carbohydrates: 3.6 },
+                { productId: 22, name: "Мёд", calories: "304", proteins: 0.3, fats: 0.0, carbohydrates: 82.4 },
+                { productId: 23, name: "Грецкие орехи", calories: "654", proteins: 15.0, fats: 65.0, carbohydrates: 14.0 },
+                { productId: 24, name: "Миндаль", calories: "579", proteins: 21.0, fats: 50.0, carbohydrates: 22.0 },
+                { productId: 25, name: "Шоколад", calories: "546", proteins: 7.0, fats: 31.0, carbohydrates: 61.0 },
+                { productId: 26, name: "Грибы", calories: "22", proteins: 3.1, fats: 0.3, carbohydrates: 3.3 },
+                { productId: 27, name: "Арахисовая паста", calories: "588", proteins: 25.0, fats: 50.0, carbohydrates: 20.0 },
+                { productId: 28, name: "Авокадо", calories: "160", proteins: 2.0, fats: 15.0, carbohydrates: 9.0 },
+                { productId: 29, name: "Черника", calories: "57", proteins: 0.7, fats: 0.3, carbohydrates: 14.5 },
+                { productId: 30, name: "Овсянка", calories: "389", proteins: 16.9, fats: 6.9, carbohydrates: 66.3 },
+                { productId: 31, name: "Шпинат", calories: "23", proteins: 2.9, fats: 0.4, carbohydrates: 3.6 },
+                { productId: 32, name: "Кокос", calories: "354", proteins: 3.3, fats: 33.5, carbohydrates: 15.2 },
+                { productId: 33, name: "Виноград", calories: "69", proteins: 0.7, fats: 0.2, carbohydrates: 18.1 }
+            ];
+        }
 
-            cards.forEach(card => {
-                card.style.opacity = '0';
-                card.style.transform = 'translateY(30px) scale(0.95)';
+        // Загрузка сохраненных данных пользователя из localStorage
+        function loadUserMeals() {
+            const savedMeals = localStorage.getItem('userMeals');
+            if (savedMeals) {
+                const userMeals = JSON.parse(savedMeals);
+
+                // Для каждого приема пищи загружаем продукты
+                ['breakfast', 'lunch', 'dinner', 'snack'].forEach(mealType => {
+                    if (userMeals[mealType]) {
+                        renderMealProducts(mealType, userMeals[mealType]);
+                        updateNutritionSummary(mealType, userMeals[mealType]);
+                    }
+                });
+            }
+        }
+
+        // Сохранение данных пользователя в localStorage
+        function saveUserMeals(mealType, products) {
+            let userMeals = localStorage.getItem('userMeals')
+                ? JSON.parse(localStorage.getItem('userMeals'))
+                : { breakfast: [], lunch: [], dinner: [], snack: [] };
+
+            userMeals[mealType] = products;
+            localStorage.setItem('userMeals', JSON.stringify(userMeals));
+        }
+
+        // Настройка продуктов в модальном окне
+        function setupModalProducts() {
+            const productList = document.getElementById('productList');
+            productList.innerHTML = '';
+
+            products.forEach(product => {
+                const btn = document.createElement('button');
+                btn.className = 'btn btn-outline-success m-1';
+                btn.textContent = product.name;
+                btn.onclick = () => addProductToMeal(product);
+
+                // Добавляем tooltip с информацией о питательности
+                btn.title = `${product.name}\nКалории: ${product.calories} ккал\nБелки: ${product.proteins}г\nЖиры: ${product.fats}г\nУглеводы: ${product.carbohydrates}г`;
+
+                productList.appendChild(btn);
+            });
+        }
+
+        // Фильтрация продуктов
+        function filterProducts() {
+            const searchTerm = document.getElementById('productSearch').value.toLowerCase();
+            const buttons = document.querySelectorAll('#productList .btn');
+
+            buttons.forEach(btn => {
+                const productName = btn.textContent.toLowerCase();
+                if (productName.includes(searchTerm)) {
+                    btn.style.display = 'inline-block';
+                    animate({
+                        duration: 300,
+                        timing: easeOutQuad,
+                        draw: progress => {
+                            btn.style.opacity = progress;
+                            btn.style.transform = `translateY(${10 - 10 * progress}px)`;
+                        }
+                    });
+                } else {
+                    btn.style.display = 'none';
+                }
+            });
+        }
+
+        // Открытие модального окна
+        const modal = new bootstrap.Modal(document.getElementById('mealModal'));
+
+        function openModal(mealItem, mealType) {
+            selectedMealType = mealType;
+            selectedMealItem = mealItem;
+
+            const mealNames = {
+                'breakfast': 'Завтрак',
+                'lunch': 'Обед',
+                'dinner': 'Ужин',
+                'snack': 'Ланч'
+            };
+
+            document.getElementById("mealTitle").innerText = `Выберите продукты для ${mealNames[mealType]}`;
+            document.getElementById('productSearch').value = '';
+            document.getElementById('productSearch').addEventListener('input', filterProducts);
+
+            // Показываем все кнопки продуктов при открытии модального окна
+            const buttons = document.querySelectorAll('#productList .btn');
+            buttons.forEach(btn => {
+                btn.style.display = 'inline-block';
+                btn.style.opacity = '0';
+                btn.style.transform = 'translateY(10px)';
+
+                animate({
+                    duration: 300,
+                    timing: bounceEaseOut,
+                    draw: progress => {
+                        btn.style.opacity = progress;
+                        btn.style.transform = `translateY(${10 - 10 * progress}px)`;
+                    }
+                });
             });
 
+            modal.show();
+        }
+
+        // Добавление продукта к приему пищи
+        function addProductToMeal(product) {
+            if (!selectedMealType) return;
+
+            // Получаем текущие продукты для этого приема пищи
+            let userMeals = localStorage.getItem('userMeals')
+                ? JSON.parse(localStorage.getItem('userMeals'))
+                : { breakfast: [], lunch: [], dinner: [], snack: [] };
+
+      
+           
+
+            userMeals[selectedMealType].push(product);
+
+            saveUserMeals(selectedMealType, userMeals[selectedMealType]);
+            renderMealProducts(selectedMealType, userMeals[selectedMealType]);
+            updateNutritionSummary(selectedMealType, userMeals[selectedMealType]);
+
+            const container = document.getElementById(`${selectedMealType}-products`);
+            const lastAdded = container.lastChild;
+            if (lastAdded) {
+                lastAdded.style.transform = 'scale(0)';
+                animate({
+                    duration: 500,
+                    timing: elasticEaseOut,
+                    draw: progress => {
+                        lastAdded.style.transform = `scale(${progress})`;
+                    }
+                });
+            }
+        }
+
+        // Отображение продуктов для приема пищи
+        function renderMealProducts(mealType, products) {
+            const container = document.getElementById(`${mealType}-products`);
+            container.innerHTML = '';
+
+            products.forEach(product => {
+                const productCircle = document.createElement("div");
+                productCircle.className = "product-circle";
+                productCircle.textContent = product.name;
+                productCircle.title = `${product.name}\nКалории: ${product.calories} ккал\nБелки: ${product.proteins}г\nЖиры: ${product.fats}г\nУглеводы: ${product.carbohydrates}г`;
+
+                // Добавляем обработчик для удаления
+                productCircle.onclick = function(e) {
+                    e.stopPropagation();
+                    removeProductFromMeal(mealType, product.productId);
+                };
+
+                container.appendChild(productCircle);
+            });
+        }
+
+        // Удаление продукта из приема пищи
+        function removeProductFromMeal(mealType, productId) {
+            let userMeals = JSON.parse(localStorage.getItem('userMeals'));
+
+            // Фильтруем продукты, удаляя выбранный
+            userMeals[mealType] = userMeals[mealType].filter(p => p.productId !== productId);
+
+            // Сохраняем и обновляем UI
+            saveUserMeals(mealType, userMeals[mealType]);
+            renderMealProducts(mealType, userMeals[mealType]);
+            updateNutritionSummary(mealType, userMeals[mealType]);
+        }
+
+        // Обновление сводки по питательности
+        function updateNutritionSummary(mealType, products) {
+            const summaryElement = document.getElementById(`${mealType}-nutrition`);
+
+            // Рассчитываем общие значения
+            let totalCalories = 0;
+            let totalProteins = 0;
+            let totalFats = 0;
+            let totalCarbs = 0;
+
+            products.forEach(product => {
+                totalCalories += parseFloat(product.calories) || 0;
+                totalProteins += parseFloat(product.proteins) || 0;
+                totalFats += parseFloat(product.fats) || 0;
+                totalCarbs += parseFloat(product.carbohydrates) || 0;
+            });
+
+            // Форматируем значения
+            summaryElement.innerHTML = `
+                <div class="nutrition-item">
+                    <div class="nutrition-value">${totalCalories.toFixed(0)}</div>
+                    <div class="nutrition-label">ккал</div>
+                </div>
+                <div class="nutrition-item">
+                    <div class="nutrition-value">${totalProteins.toFixed(1)}</div>
+                    <div class="nutrition-label">белки</div>
+                </div>
+                <div class="nutrition-item">
+                    <div class="nutrition-value">${totalFats.toFixed(1)}</div>
+                    <div class="nutrition-label">жиры</div>
+                </div>
+                <div class="nutrition-item">
+                    <div class="nutrition-value">${totalCarbs.toFixed(1)}</div>
+                    <div class="nutrition-label">углеводы</div>
+                </div>
+            `;
+        }
+
+        // Анимации страницы
+        function initPageAnimations() {
             // Анимация заголовка
             animate({
-                element: title,
                 duration: 800,
-                properties: {
-                    opacity: 1,
-                    translateY: 0
-                },
-                easing: 'easeOutBack'
+                timing: bounceEaseOut,
+                draw: progress => {
+                    const title = document.querySelector('h1');
+                    title.style.opacity = progress;
+                    title.style.transform = `translateY(${-20 + 20 * progress}px)`;
+                }
             });
 
             // Анимация карточек
-            cards.forEach((card, index) => {
+            document.querySelectorAll('.meal-item').forEach((card, index) => {
                 setTimeout(() => {
                     animate({
-                        element: card,
                         duration: 600,
-                        properties: {
-                            opacity: 1,
-                            translateY: 0,
-                            scale: 1
-                        },
-                        easing: 'easeOutBack'
+                        timing: bounceEaseOut,
+                        draw: progress => {
+                            card.style.opacity = progress;
+                            card.style.transform = `translateY(${20 - 20 * progress}px)`;
+                        }
+                    });
+
+                    // Эффекты при наведении
+                    const img = card.querySelector('.card-img-top');
+                    card.addEventListener('mouseenter', () => {
+                        animate({
+                            duration: 300,
+                            timing: easeOutBack,
+                            draw: progress => {
+                                card.style.transform = `translateY(${-8 * progress}px) scale(${1 + 0.03 * progress})`;
+                                img.style.transform = `scale(${1 + 0.1 * progress})`;
+                            }
+                        });
+                    });
+
+                    card.addEventListener('mouseleave', () => {
+                        animate({
+                            duration: 300,
+                            timing: easeOutQuad,
+                            draw: progress => {
+                                card.style.transform = `translateY(${-8 + 8 * progress}px) scale(${1.03 - 0.03 * progress})`;
+                                img.style.transform = `scale(${1.1 - 0.1 * progress})`;
+                            }
+                        });
                     });
                 }, index * 100);
             });
         }
 
-        // Универсальная функция анимации
-        function animate({element, duration, properties, easing = 'ease', delay = 0, onComplete}) {
-            const startTime = Date.now();
-            const initialValues = {};
+        // Функции анимации
+        function animate({duration, timing, draw, onComplete}) {
+            const start = performance.now();
 
-            // Запоминаем начальные значения
-            for (const prop in properties) {
-                if (prop === 'scale') {
-                    initialValues.scale = parseFloat(element.style.transform.match(/scale\(([^)]+)\)/) || 1);
-                } else if (prop === 'translateY') {
-                    initialValues.translateY = parseFloat(element.style.transform.match(/translateY\(([^)]+)px\)/) || 0);
-                } else {
-                    initialValues[prop] = parseFloat(getComputedStyle(element)[prop]) || 0;
-                }
-            }
+            requestAnimationFrame(function animateFrame(time) {
+                let progress = (time - start) / duration;
+                if (progress > 1) progress = 1;
 
-            function update() {
-                const elapsed = Date.now() - startTime - delay;
-                if (elapsed < 0) {
-                    requestAnimationFrame(update);
-                    return;
-                }
-
-                const progress = Math.min(elapsed / duration, 1);
-                let easedProgress;
-
-                // Применяем easing
-                switch(easing) {
-                    case 'easeOutBack':
-                        easedProgress = easeOutBack(progress);
-                        break;
-                    case 'easeOutElastic':
-                        easedProgress = easeOutElastic(progress);
-                        break;
-                    default:
-                        easedProgress = progress;
-                }
-
-                // Применяем изменения к свойствам
-                for (const prop in properties) {
-                    const initial = initialValues[prop];
-                    const target = properties[prop];
-
-                    if (prop === 'scale') {
-                        const value = initial + (target - initial) * easedProgress;
-                        element.style.transform = `translateY(${initialValues.translateY || 0}px) scale(${value})`;
-                    } else if (prop === 'translateY') {
-                        const value = initial + (target - initial) * easedProgress;
-                        element.style.transform = `translateY(${value}px) scale(${initialValues.scale || 1})`;
-                    } else {
-                        const value = initial + (target - initial) * easedProgress;
-                        element.style[prop] = value;
-                    }
-                }
+                draw(timing(progress));
 
                 if (progress < 1) {
-                    requestAnimationFrame(update);
+                    requestAnimationFrame(animateFrame);
                 } else if (onComplete) {
                     onComplete();
                 }
-            }
-
-            requestAnimationFrame(update);
+            });
         }
 
-        // Функции easing
-        function easeOutBack(x) {
+        // Функции плавности
+        function linear(progress) { return progress; }
+        function easeOutQuad(progress) { return progress * (2 - progress); }
+        function easeOutBack(progress) {
             const c1 = 1.70158;
             const c3 = c1 + 1;
-            return 1 + c3 * Math.pow(x - 1, 3) + c1 * Math.pow(x - 1, 2);
+            return 1 + c3 * Math.pow(progress - 1, 3) + c1 * Math.pow(progress - 1, 2);
         }
-
-        function easeOutElastic(x) {
-            const c4 = (2 * Math.PI) / 3;
-            return x === 0 ? 0 : x === 1 ? 1 : Math.pow(2, -10 * x) * Math.sin((x * 10 - 0.75) * c4) + 1;
+        function easeInBack(progress) {
+            const c1 = 1.70158;
+            return progress * progress * ((c1 + 1) * progress - c1);
         }
-
-        // Эффект свечения, следующего за курсором
-        function setupGlowEffect() {
-            const glow = document.getElementById('glowEffect');
-
-            document.addEventListener('mousemove', (e) => {
-                animate({
-                    element: glow,
-                    duration: 100,
-                    properties: {
-                        left: e.clientX,
-                        top: e.clientY
-                    }
-                });
-            });
-        }
-
-        // Создание плавающих иконок еды
-        function createFloatingFood(count) {
-            for (let i = 0; i < count; i++) {
-                const food = document.createElement('div');
-                food.className = 'food-particle';
-                food.textContent = foodIcons[Math.floor(Math.random() * foodIcons.length)];
-
-                const size = Math.random() * 1.5 + 1;
-                const posX = Math.random() * 100;
-                const posY = Math.random() * 100;
-                const opacity = Math.random() * 0.4 + 0.1;
-                const duration = Math.random() * 20000 + 10000;
-                const delay = Math.random() * 10000;
-
-                food.style.fontSize = `${size}rem`;
-                food.style.left = `${posX}%`;
-                food.style.top = `${posY}%`;
-                food.style.opacity = opacity;
-
-                document.body.appendChild(food);
-
-                floatingFood.push({
-                    element: food,
-                    startX: posX,
-                    startY: posY,
-                    endX: Math.random() * 80 + 10,
-                    endY: Math.random() * 80 + 10,
-                    startTime: Date.now() + delay,
-                    duration: duration,
-                    rotation: Math.random() * 360
-                });
-            }
-
-            animateFloatingFood();
-        }
-
-        // Анимация плавающих иконок еды
-        function animateFloatingFood() {
-            const currentTime = Date.now();
-
-            floatingFood.forEach(item => {
-                if (currentTime < item.startTime) return;
-
-                const elapsed = currentTime - item.startTime;
-                const progress = Math.min(elapsed / item.duration, 1);
-
-                const x = item.startX + (item.endX - item.startX) * progress;
-                const y = item.startY + (item.endY - item.startY) * progress;
-                const rotation = item.rotation + progress * 360;
-
-                item.element.style.left = `${x}%`;
-                item.element.style.top = `${y}%`;
-                item.element.style.transform = `rotate(${rotation}deg)`;
-
-                if (progress >= 1) {
-                    item.startX = item.endX;
-                    item.startY = item.endY;
-                    item.endX = Math.random() * 80 + 10;
-                    item.endY = Math.random() * 80 + 10;
-                    item.startTime = currentTime;
-                    item.duration = Math.random() * 20000 + 10000;
-                }
-            });
-
-            animationFrameId = requestAnimationFrame(animateFloatingFood);
-        }
-
-        // Настройка эффектов при наведении на карточки
-        function setupCardHoverEffects() {
-            const cards = document.querySelectorAll('.meal-item');
-
-            cards.forEach(card => {
-                const img = card.querySelector('.card-img-top');
-
-                card.addEventListener('mouseenter', () => {
-                    animate({
-                        element: card,
-                        duration: 300,
-                        properties: {
-                            translateY: -8,
-                            scale: 1.03
-                        },
-                        easing: 'easeOutBack'
-                    });
-
-                    animate({
-                        element: img,
-                        duration: 300,
-                        properties: {
-                            scale: 1.1
-                        }
-                    });
-
-                    createFoodHoverParticles(card);
-                });
-
-                card.addEventListener('mouseleave', () => {
-                    animate({
-                        element: card,
-                        duration: 300,
-                        properties: {
-                            translateY: 0,
-                            scale: 1
-                        }
-                    });
-
-                    animate({
-                        element: img,
-                        duration: 300,
-                        properties: {
-                            scale: 1
-                        }
-                    });
-                });
-            });
-        }
-
-        // Эффект иконок еды при наведении
-        function createFoodHoverParticles(card) {
-            const rect = card.getBoundingClientRect();
-            const centerX = rect.left + rect.width / 2;
-            const centerY = rect.top + rect.height / 2;
-
-            for (let i = 0; i < 5; i++) {
-                const food = document.createElement('div');
-                food.className = 'food-particle';
-                food.textContent = foodIcons[Math.floor(Math.random() * foodIcons.length)];
-                food.style.fontSize = `${Math.random() * 1 + 1}rem`;
-                food.style.left = `${centerX}px`;
-                food.style.top = `${centerY}px`;
-                food.style.zIndex = '1';
-
-                document.body.appendChild(food);
-
-                setTimeout(() => {
-                    animate({
-                        element: food,
-                        duration: 300,
-                        properties: {
-                            opacity: 0.8
-                        }
-                    });
-
-                    const angle = Math.random() * Math.PI * 2;
-                    const distance = Math.random() * 50 + 30;
-                    const x = Math.cos(angle) * distance;
-                    const y = Math.sin(angle) * distance;
-
-                    animate({
-                        element: food,
-                        duration: 600,
-                        properties: {
-                            left: centerX + x,
-                            top: centerY + y,
-                            rotate: Math.random() * 360
-                        },
-                        easing: 'easeOutBack',
-                        onComplete: () => {
-                            animate({
-                                element: food,
-                                duration: 300,
-                                properties: {
-                                    opacity: 0
-                                },
-                                onComplete: () => food.remove()
-                            });
-                        }
-                    });
-                }, i * 100);
+        function bounceEaseOut(progress) {
+            if (progress < 1/2.75) {
+                return 7.5625 * progress * progress;
+            } else if (progress < 2/2.75) {
+                return 7.5625 * (progress -= 1.5/2.75) * progress + 0.75;
+            } else if (progress < 2.5/2.75) {
+                return 7.5625 * (progress -= 2.25/2.75) * progress + 0.9375;
+            } else {
+                return 7.5625 * (progress -= 2.625/2.75) * progress + 0.984375;
             }
         }
-
-        // Настройка эффектов при наведении на кнопки
-        function setupButtonHoverEffects() {
-            const buttons = document.querySelectorAll('#productList .btn');
-
-            buttons.forEach(btn => {
-                btn.addEventListener('mouseenter', () => {
-                    animate({
-                        element: btn,
-                        duration: 200,
-                        properties: {
-                            translateY: -2,
-                            scale: 1.05
-                        },
-                        easing: 'easeOutBack'
-                    });
-                });
-
-                btn.addEventListener('mouseleave', () => {
-                    animate({
-                        element: btn,
-                        duration: 200,
-                        properties: {
-                            translateY: 0,
-                            scale: 1
-                        }
-                    });
-                });
-            });
-        }
-
-        // Открытие модального окна
-        function openModal(mealItem, meal) {
-            selectedMealItem = mealItem;
-            document.getElementById("mealTitle").innerText = "Выберите продукты для " + meal;
-
-            const modalContent = document.querySelector('.modal-content');
-            modalContent.style.opacity = '0';
-            modalContent.style.transform = 'scale(0.95) translateY(20px)';
-
-            modal.show();
-
-            setTimeout(() => {
-                animate({
-                    element: modalContent,
-                    duration: 300,
-                    properties: {
-                        opacity: 1,
-                        translateY: 0,
-                        scale: 1
-                    },
-                    easing: 'easeOutBack'
-                });
-
-                animateProductButtons();
-            }, 50);
-        }
-
-        // Анимация кнопок продуктов
-        function animateProductButtons() {
-            const buttons = document.querySelectorAll('#productList .btn');
-
-            buttons.forEach((btn, index) => {
-                btn.style.opacity = '0';
-                btn.style.transform = 'translateY(10px) scale(0.9)';
-
-                setTimeout(() => {
-                    animate({
-                        element: btn,
-                        duration: 300,
-                        properties: {
-                            opacity: 1,
-                            translateY: 0,
-                            scale: 1
-                        },
-                        easing: 'easeOutBack'
-                    });
-                }, index * 50);
-            });
-        }
-
-        // Добавление продукта
-        function addProduct(productName) {
-            if (!selectedMealItem) return;
-
-            const container = selectedMealItem.querySelector('.selected-products');
-            const productCircle = document.createElement("div");
-            productCircle.classList.add("product-circle");
-
-            const emoji = productName.match(/[\u{1F300}-\u{1F9FF}]/u) || ['🍕'];
-            productCircle.innerHTML = `<span style="font-size: 1.2em">${emoji[0]}</span>`;
-            productCircle.title = productName;
-
-            productCircle.style.transform = 'scale(0) rotate(-90deg)';
-            productCircle.style.opacity = '0';
-
-            productCircle.addEventListener('mouseenter', () => {
-                animate({
-                    element: productCircle,
-                    duration: 200,
-                    properties: {
-                        scale: 1.2,
-                        rotate: 10
-                    },
-                    easing: 'easeOutBack'
-                });
-            });
-
-            productCircle.addEventListener('mouseleave', () => {
-                animate({
-                    element: productCircle,
-                    duration: 200,
-                    properties: {
-                        scale: 1,
-                        rotate: 0
-                    }
-                });
-            });
-
-            productCircle.onclick = function(e) {
-                e.stopPropagation();
-                animateProductRemoval(this);
-            };
-
-            container.appendChild(productCircle);
-
-            setTimeout(() => {
-                animate({
-                    element: productCircle,
-                    duration: 500,
-                    properties: {
-                        scale: 1,
-                        rotate: 0,
-                        opacity: 1
-                    },
-                    easing: 'easeOutElastic'
-                });
-
-                createFoodConfetti(container, productName);
-
-                setTimeout(() => {
-                    animate({
-                        element: productCircle,
-                        duration: 250,
-                        properties: {
-                            translateY: -15
-                        },
-                        onComplete: () => {
-                            animate({
-                                element: productCircle,
-                                duration: 250,
-                                properties: {
-                                    translateY: 0
-                                },
-                                easing: 'easeOutBounce'
-                            });
-                        }
-                    });
-                }, 100);
-            }, 10);
-        }
-
-        // Эффект конфетти при добавлении продукта
-        function createFoodConfetti(container, productName) {
-            const rect = container.getBoundingClientRect();
-            const centerX = rect.left + rect.width / 2;
-            const centerY = rect.top + rect.height / 2;
-            const emoji = productName.match(/[\u{1F300}-\u{1F9FF}]/u) || ['🍕'];
-
-            for (let i = 0; i < 12; i++) {
-                const confetti = document.createElement('div');
-                confetti.className = 'food-particle';
-                confetti.textContent = emoji[0];
-                confetti.style.fontSize = `${Math.random() * 1 + 1}rem`;
-                confetti.style.left = `${centerX}px`;
-                confetti.style.top = `${centerY}px`;
-                confetti.style.zIndex = '1000';
-
-                document.body.appendChild(confetti);
-
-                setTimeout(() => {
-                    animate({
-                        element: confetti,
-                        duration: 300,
-                        properties: {
-                            opacity: 1
-                        }
-                    });
-
-                    const angle = Math.random() * Math.PI * 2;
-                    const distance = Math.random() * 150 + 50;
-                    const x = Math.cos(angle) * distance;
-                    const y = Math.sin(angle) * distance - 100;
-
-                    animate({
-                        element: confetti,
-                        duration: 1200,
-                        properties: {
-                            left: centerX + x,
-                            top: centerY + y,
-                            rotate: Math.random() * 360
-                        },
-                        easing: 'easeOutBack',
-                        onComplete: () => {
-                            animate({
-                                element: confetti,
-                                duration: 300,
-                                properties: {
-                                    opacity: 0
-                                },
-                                onComplete: () => confetti.remove()
-                            });
-                        }
-                    });
-                }, i * 50);
-            }
-        }
-
-        // Анимация удаления продукта
-        function animateProductRemoval(element) {
-            animate({
-                element: element,
-                duration: 400,
-                properties: {
-                    scale: 0,
-                    rotate: 180,
-                    opacity: 0
-                },
-                easing: 'easeInBack',
-                onComplete: () => {
-                    element.remove();
-                    createRemovalParticles(element);
-                }
-            });
-        }
-
-        // Эффект частиц при удалении
-        function createRemovalParticles(element) {
-            const rect = element.getBoundingClientRect();
-            const centerX = rect.left + rect.width / 2;
-            const centerY = rect.top + rect.height / 2;
-            const emoji = element.textContent;
-
-            for (let i = 0; i < 8; i++) {
-                const particle = document.createElement('div');
-                particle.className = 'food-particle';
-                particle.textContent = emoji;
-                particle.style.fontSize = '1rem';
-                particle.style.left = `${centerX}px`;
-                particle.style.top = `${centerY}px`;
-                particle.style.opacity = '1';
-                particle.style.zIndex = '1000';
-
-                document.body.appendChild(particle);
-
-                const angle = Math.random() * Math.PI * 2;
-                const distance = Math.random() * 60 + 30;
-                const x = Math.cos(angle) * distance;
-                const y = Math.sin(angle) * distance;
-
-                animate({
-                    element: particle,
-                    duration: 600,
-                    properties: {
-                        left: centerX + x,
-                        top: centerY + y,
-                        rotate: Math.random() * 360,
-                        opacity: 0
-                    },
-                    easing: 'easeOutBack',
-                    onComplete: () => particle.remove()
-                });
-            }
+        function elasticEaseOut(progress) {
+            return Math.pow(2, -10 * progress) * Math.sin((progress - 0.3/4) * (2 * Math.PI)/0.3) + 1;
         }
     </script>
 </body>
